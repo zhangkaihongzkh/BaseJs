@@ -51,6 +51,17 @@ Base.prototype.getClassName = function(className,idName){
 	return this;
 };
 
+//添加className操作
+Base.prototype.addClass = function(className){
+	for(var i = 0;i < this.elements.length;i ++){
+		//用于判断类名是否重复
+		if(!this.elements[i].className.match(new RegExp('(\\s|^)'+className+'(\\s|$)'))){
+			this.elements[i].className += ' ' + className;
+		}
+	}
+	return this;
+};
+
 //获取到节点数组某一个节点
 Base.prototype.getElement = function(num){
 	//点获取到节点 然后将节点数组清空 再将所获取节点赋值给第一个
