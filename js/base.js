@@ -57,7 +57,7 @@ Base.prototype.getClassName = function(className,idName){
 Base.prototype.addClass = function(className){
 	for(var i = 0;i < this.elements.length;i ++){
 		//用于判断类名是否重复
-		if(!this.elements[i].className.match(new RegExp('(\\s|^)'+className+'(\\s|$)'))){
+		if(!hasClass(this.elements[i],className)){
 			this.elements[i].className += ' ' + className;
 		}
 	}
@@ -67,7 +67,7 @@ Base.prototype.addClass = function(className){
 //移除className操作
 Base.prototype.removeClass = function(className){
 	for(var i = 0;i < this.elements.length;i ++){
-		if(this.elements[i].className.match(new RegExp('(\\s|^)'+className+'(\\s|$)'))){
+		if(hasClass(this.elements[i],className)){
 			this.elements[i].className = this.elements[i].className.replace(new RegExp('(\\s|^)'+className+'(\\s|$)'),'');
 		}
 	}
@@ -87,11 +87,7 @@ Base.prototype.getElement = function(num){
 Base.prototype.css = function(attr,value){
 	for(var i = 0; i < this.elements.length;i ++){
 		if(arguments.length == 1){
-			if(typeof window.getComputedStyle != 'undefined'){	//W3C
-				return window.getComputedStyle(this.elements[i],null)[attr];
-			}else if(typeof window.getComputedStyle != 'undefined'){	//IE
-				return this.elements[i].currentStyle[attr];
-			}
+			return getStyle(this.elements[i],attr);
 		}
 		this.elements[i].style[attr] = value;
 	}
@@ -134,6 +130,33 @@ Base.prototype.hover = function(over,out){
 	return this;
 };
 
+//设置居中方法(已知物体宽高)
+Base.prototype.center = function(width,height){
+	var top = (getInner().height - height) / 2;
+	var left = (getInner().width - width) / 2;
+	for(var i = 0;i < this.elements.length; i ++){
+		this.elements[i].style.top = top + 'px';
+		this.elements[i].style.left = left + 'px';
+	}
+	return this;
+};
+
+//锁屏操作
+Base.prototype.lock = function(){
+	for(var i = 0;i < this.elements.length;i ++){
+		this.elements[i].style.width = getInner().width + 'px';
+		this.elements[i].style.height = getInner().height + 'px';
+		this.elements[i].style.display = 'block';
+	}
+};
+
+//解锁操作
+Base.prototype.unlock = function(){
+	for(var i = 0;i < this.elements.length;i ++){
+		this.elements[i].style.display = 'none';
+	}
+};
+
 //点击事件
 Base.prototype.click = function(fn){
 	for(var i = 0;i<this.elements.length;i++){
@@ -141,3 +164,10 @@ Base.prototype.click = function(fn){
 	}
 	return this;
 };
+
+//窗口改变触发事件
+Base.prototype.resize = function(fn){
+	window.onresize = fn;
+	return this;
+}
+
