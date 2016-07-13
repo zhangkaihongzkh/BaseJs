@@ -33,9 +33,16 @@ Base.prototype.getTagName = function(tag){
 };
 
 //获取CLASS数组
-Base.prototype.getClassName = function(className){
+Base.prototype.getClassName = function(className,idName){
+	//解决区域化的问题
+	var node = null;
+	if(arguments.length == 2){
+		node = document.getElementById(idName);
+	}else if(arguments.length == 1){
+		node = document;
+	}
 	//先获取到所有节点 再循环逐一比较
-	var all = document.getElementsByTagName('*');
+	var all = node.getElementsByTagName('*');
 	for(var i = 0;i < all.length; i ++){
 		if(all[i].className == className){
 			this.elements.push(all[i]);

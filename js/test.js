@@ -16,5 +16,6 @@ window.onload = function(){
 	alert(	$().getId('box').html());*/
 /*	alert($().getId('box').css('fontSize'));*/
 /*	alert($().getClassName('a').elements.length);*/
-	alert($().getClassName('a').getElement(2).css('fontSize','25px'));
+	/*alert($().getClassName('a').getElement(2).css('fontSize','25px'));*/
+	$().getClassName('a').css('backgroundColor','black');
 }; 
