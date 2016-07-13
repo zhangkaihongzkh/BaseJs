@@ -9,12 +9,14 @@
 		return document.getElementsByTagName(tagName);
 	}
 }*/
-var $ = function(){
-	return new Base();
+var $ = function(_this){
+	return new Base(_this);
 }
-function Base(){
+function Base(_this){
 	this.elements = [];	//把返回的节点对象保存在Base对象的属性数组中
-
+	if(_this != undefined){	//_this为一个对象 undefined也是一个对象，与typeof返回的带单引号的undefined不同
+		this.elements[0] = _this;
+	}
 };
 
 //获取元素ID
@@ -103,6 +105,31 @@ Base.prototype.html = function(str){
 			return this.elements[i].innerHTML;
 		}
 		this.elements[i].innerHTML = str;
+	}
+	return this;
+};
+
+//显示方法
+Base.prototype.show = function(){
+	for(var i =0;i<this.elements.length;i++){	
+		this.elements[i].style.display = 'block';
+	}
+	return this;
+};
+
+//隐藏方法
+Base.prototype.hide = function(){
+	for(var i =0;i<this.elements.length;i++){	
+		this.elements[i].style.display = 'none';
+	}
+	return this;
+};
+
+//鼠标移入移出方法
+Base.prototype.hover = function(over,out){
+	for(var i = 0;i < this.elements.length; i ++){
+		this.elements[i].onmouseover = over;
+		this.elements[i].onmouseout = out;
 	}
 	return this;
 };
