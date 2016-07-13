@@ -29,5 +29,8 @@ window.onload = function(){
 		$().getId('screen').unlock();
 	});
 
+	//拖拽
+	$login.drag();
+
 
 }; 

@@ -147,6 +147,7 @@ Base.prototype.lock = function(){
 		this.elements[i].style.width = getInner().width + 'px';
 		this.elements[i].style.height = getInner().height + 'px';
 		this.elements[i].style.display = 'block';
+		document.documentElement.style.overflow = 'hidden';//出现遮照时将滚动条去除
 	}
 };
 
@@ -154,12 +155,13 @@ Base.prototype.lock = function(){
 Base.prototype.unlock = function(){
 	for(var i = 0;i < this.elements.length;i ++){
 		this.elements[i].style.display = 'none';
+		document.documentElement.style.overflow = 'auto';//还原滚动条
 	}
 };
 
 //点击事件
 Base.prototype.click = function(fn){
-	for(var i = 0;i<this.elements.length;i++){
+	for(var i = 0;i < this.elements.length;i++){
 		this.elements[i].onclick = fn;
 	}
 	return this;
@@ -171,3 +173,43 @@ Base.prototype.resize = function(fn){
 	return this;
 }
 
+//拖拽
+Base.prototype.drag = function(){
+	for(var i = 0;i<this.elements.length;i++){
+		this.elements[i].onmousedown = function(e){
+			preDef(e);	//阻止默认行为
+			var e = getEvent(e);
+			var _this = this //登陆窗口本身
+
+			var diffX = e.clientX - _this.offsetLeft;
+			var diffY = e.clientY - _this.offsetTop;
+
+			document.onmousemove = function(e){
+
+				var event = getEvent(e);
+				var left = event.clientX - diffX;
+				var top = event.clientY- diffY;
+
+				//判断是否到达浏览器窗口边界
+				if(left < 0){
+					left = 0;
+				}else if(left > getInner().width - _this.offsetWidth){
+					left = getInner().width - _this.offsetWidth;
+				}
+				if(top < 0){
+					top = 0;
+				}else if(top > getInner().height - _this.offsetHeight){
+					top = getInner().height - _this.offsetHeight;
+				}
+
+				_this.style.left = left + 'px';
+				_this.style.top = top + 'px';
+			}
+			document.onmouseup = function(){
+				this.onmousemove = null;
+				this.onmouseup = null;
+			}
+		};
+	}
+	return this;
+}
