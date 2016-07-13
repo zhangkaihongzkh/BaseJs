@@ -18,5 +18,5 @@ window.onload = function(){
 /*	alert($().getClassName('a').elements.length);*/
 	/*alert($().getClassName('a').getElement(2).css('fontSize','25px'));*/
 /*	$().getClassName('a').css('backgroundColor','black').addClass('a').addClass('b');*/
-	$().getClassName('a').addClass('a').addClass('b');
+	$().getClassName('a').addClass('a').addClass('b').removeClass('b');
 }; 

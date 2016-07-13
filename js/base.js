@@ -62,6 +62,16 @@ Base.prototype.addClass = function(className){
 	return this;
 };
 
+//移除className操作
+Base.prototype.removeClass = function(className){
+	for(var i = 0;i < this.elements.length;i ++){
+		if(this.elements[i].className.match(new RegExp('(\\s|^)'+className+'(\\s|$)'))){
+			this.elements[i].className = this.elements[i].className.replace(new RegExp('(\\s|^)'+className+'(\\s|$)'),'');
+		}
+	}
+	return this;
+}
+
 //获取到节点数组某一个节点
 Base.prototype.getElement = function(num){
 	//点获取到节点 然后将节点数组清空 再将所获取节点赋值给第一个
