@@ -12,4 +12,9 @@ window.onload = function(){
 	$().getTagName('p').css('backgroundColor','green').html('123').click(function(){
 		alert('a')
 	});
+/*	alert($().getTagName('p').css('backgroundColor'));
+	alert(	$().getId('box').html());*/
+/*	alert($().getId('box').css('fontSize'));*/
+/*	alert($().getClassName('a').elements.length);*/
+	alert($().getClassName('a').getElement(2).css('fontSize','25px'));
 }; 
