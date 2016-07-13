@@ -1,4 +1,64 @@
 
+//JS中一切皆为对象
+addEvent.ID = 1;	//事件处理计数器
+
+//跨浏览器添加事件
+function addEvent(obj,type,fn){
+	if(typeof obj.addEventListener != 'undefined'){	//W3C
+		obj.addEventListener(type,fn,false);
+	}else {
+		//模拟IE处理 解决IE事件不顺序处理
+		//创建一个存放事件的哈希表
+		if(!obj.events){
+			obj.events = {};
+		}
+		//创建一个存放处理函数的数组
+		if(!obj.events[type]){
+			obj.events[type] = [];
+			//把第一次的事件处理函数先存储到第一个位置
+			if(obj['on' + type]){
+				obj.events[type][0] = fn;
+			}
+		}else{
+			//同一个函数进行屏蔽
+			if(addEvent.equal(obj.events[type],fn)){
+				return false;
+			}
+		}
+		//从第二次用事件计数器来存储
+		obj.events[type][addEvent.ID ++] = fn;
+		//执行事件处理函数
+		obj['on' + type] = addEvent.exec;	
+	}
+}
+
+//执行事件处理函数
+addEvent.exec = function(event){
+	var e = event || window.event;
+	var es = obj.events[e.type]
+	for(var i in es){
+		es[i].call(this,e);
+	}
+}
+
+//同一个注册函数进行屏蔽
+addEvent.equal = function(es,fn){
+	for(var i in es){
+		if(es[i] == fn) return true;
+	}
+	return false;
+}
+
+
+//跨浏览器删除事件
+function addEvent(obj,type,fn){
+	if(typeof obj.removeEventListener != 'undefined'){	//W3C
+		obj.removeEventListener(type,fn,false);
+	}else {
+
+	}
+}
+
 //跨浏览器获取窗口大小
 function getInner(){
 	if(typeof window.innerWidth != 'undefined'){//非IE
@@ -12,7 +72,7 @@ function getInner(){
 			height:document.documentElement.clientHeight
 		};
 	}
-};
+}
 
 //跨浏览器获取Style
 function getStyle(element,attr){
@@ -21,7 +81,7 @@ function getStyle(element,attr){
 	}else if(typeof element.currentStyle != 'undefined'){	//IE
 		return element.currentStyle[attr];
 	}
-};
+}
 
 //判断是否有相同类名
 function hasClass(element,className){
@@ -31,7 +91,7 @@ function hasClass(element,className){
 //获取Event对象
 function getEvent(event){
 	return event || window.event;
-};
+}
 
 //阻止默认行为
 function preDef(event){
