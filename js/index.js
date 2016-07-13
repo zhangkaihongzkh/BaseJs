@@ -12,15 +12,14 @@ window.onload = function(){
 	//登陆框
 	var $login = $().getId('login');
 	var $screen = $().getId('screen');
-	$login.center(350,250);
+	$login.center(350,250).resize(function(){
 
-	$().resize(function(){
-		$login.center(350,250);
 		if($login.css('display') == 'block'){
 			$().getId('screen').lock();
 		}
 	});
 	$().getClassName('login').click(function(){
+		$login.center(350,250)
 		$login.css('display','block');
 		$().getId('screen').lock();
 	});

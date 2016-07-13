@@ -169,7 +169,20 @@ Base.prototype.click = function(fn){
 
 //窗口改变触发事件
 Base.prototype.resize = function(fn){
-	window.onresize = fn;
+	for(var i = 0;i < this.elements.length;i ++){
+		var element = this.elements[i];
+		window.onresize = function(){
+			fn();
+			//针对缩小窗口后登陆窗口仍然可以在右下角显示
+			if(element.offsetLeft > getInner().width - element.offsetWidth){
+				element.style.left = getInner().width - element.offsetWidth + 'px';
+			}
+			if(element.offsetTop > getInner().height - element.offsetHeight){
+				element.style.top = getInner().height - element.offsetHeight + 'px';
+			}
+		};
+	}
+	
 	return this;
 }
 
