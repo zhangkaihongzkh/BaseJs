@@ -184,6 +184,11 @@ Base.prototype.drag = function(){
 			var diffX = e.clientX - _this.offsetLeft;
 			var diffY = e.clientY - _this.offsetTop;
 
+			//针对IE划出浏览器时 依然能捕获事件
+			if(typeof _this.setCapture != 'undefined'){
+				_this.setCapture();
+			}
+
 			document.onmousemove = function(e){
 
 				var event = getEvent(e);
@@ -208,6 +213,10 @@ Base.prototype.drag = function(){
 			document.onmouseup = function(){
 				this.onmousemove = null;
 				this.onmouseup = null;
+				//针对IE划出浏览器时 依然能捕获事件
+				if(typeof _this.releaseCapture != 'undefined'){
+					_this.releaseCapture();
+				}
 			}
 		};
 	}
