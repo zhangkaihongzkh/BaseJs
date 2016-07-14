@@ -16,7 +16,7 @@ $().extend('drag',function(tags){
 			var flag = false;
 			for(var i = 0;i < tags.length; i++){
 				if(e.target == tags[i]){
-					flag = true;
+					flag = true;	//只要有一个是符合拖拽区域 就跳出循环
 					break;
 				}
 			};

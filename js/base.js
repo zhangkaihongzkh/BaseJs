@@ -9,13 +9,25 @@
 		return document.getElementsByTagName(tagName);
 	}
 }*/
-var $ = function(_this){
-	return new Base(_this);
+var $ = function(args){
+	return new Base(args);
 }
-function Base(_this){
+function Base(args){
 	this.elements = [];	//把返回的节点对象保存在Base对象的属性数组中
-	if(_this != undefined){	//_this为一个对象 undefined也是一个对象，与typeof返回的带单引号的undefined不同
-		this.elements[0] = _this;
+	if(typeof args == 'string'){
+		switch(args.charAt(0)){
+			case '#':
+				this.getId(args.substring(1));
+				break;
+			case '.':
+				
+				break;
+			default:
+		}
+	}else if(typeof args == 'object'){
+		if(args != undefined){	//_this为一个对象 undefined也是一个对象，与typeof返回的带单引号的undefined不同
+			this.elements[0] = args;
+		}
 	}
 };
 

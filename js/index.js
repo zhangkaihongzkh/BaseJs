@@ -29,7 +29,7 @@ window.onload = function(){
 	});
 
 	//拖拽
-	$login.drag([$().getTagName('h2').getElement(0),$().getTagName('span').getElement(0)]);
+	$login.drag([$().getTagName('h2').getElement(0)]);
 /*
 	var oButton = document.getElementById('button');
 	addEvent(oButton,'click',fn1);;
@@ -42,6 +42,10 @@ window.onload = function(){
 
 	/*alert($().getTagName('h2').getElement(0));
 	alert($().getTagName('span').getElement(0));*/
+	$().getClassName('box1').css('backgroundColor','red');
+	$("#box2").css('backgroundColor','green').click(function(){
+		alert($(this).html());
+	});
 }; 
 
 function fn1(e){
