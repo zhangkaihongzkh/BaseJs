@@ -29,7 +29,7 @@ window.onload = function(){
 	});
 
 	//拖拽
-	$login.drag();
+	$login.drag([$().getTagName('h2').getElement(0),$().getTagName('span').getElement(0)]);
 /*
 	var oButton = document.getElementById('button');
 	addEvent(oButton,'click',fn1);;
@@ -39,11 +39,9 @@ window.onload = function(){
 /*	oButton.onclick = function(e){
 		
 	}*/
-	var a = document.getElementById('a');
-	addEvent(a,'click',function(e){
-		e.preventDefault();
-	});
 
+	/*alert($().getTagName('h2').getElement(0));
+	alert($().getTagName('span').getElement(0));*/
 }; 
 
 function fn1(e){

@@ -74,14 +74,19 @@ Base.prototype.removeClass = function(className){
 	return this;
 }
 
-//获取到节点数组某一个节点
+//获取到节点数组某一个节点，并返回这个节点
 Base.prototype.getElement = function(num){
+	return this.elements[num];
+};
+
+//获取到节点数组某一个节点，并返回Base对象
+Base.prototype.eq = function(num){
 	//点获取到节点 然后将节点数组清空 再将所获取节点赋值给第一个
 	var element = this.elements[num];
 	this.elements = [];
 	this.elements[0] = element;
 	return this;
-}
+};
 
 //设置css方法
 Base.prototype.css = function(attr,value){
@@ -124,8 +129,8 @@ Base.prototype.hide = function(){
 //鼠标移入移出方法
 Base.prototype.hover = function(over,out){
 	for(var i = 0;i < this.elements.length; i ++){
-		this.elements[i].onmouseover = over;
-		this.elements[i].onmouseout = out;
+		addEvent(this.elements[i],'mouseover',over);
+		addEvent(this.elements[i],'mouseout',out);
 	}
 	return this;
 };
@@ -171,7 +176,7 @@ Base.prototype.click = function(fn){
 Base.prototype.resize = function(fn){
 	for(var i = 0;i < this.elements.length;i ++){
 		var element = this.elements[i];
-		window.onresize = function(){
+		addEvent(window,'resize',function(){
 			fn();
 			//针对缩小窗口后登陆窗口仍然可以在右下角显示
 			if(element.offsetLeft > getInner().width - element.offsetWidth){
@@ -180,58 +185,18 @@ Base.prototype.resize = function(fn){
 			if(element.offsetTop > getInner().height - element.offsetHeight){
 				element.style.top = getInner().height - element.offsetHeight + 'px';
 			}
-		};
+		});
 	}
 	
 	return this;
-}
+};
 
 //拖拽
-Base.prototype.drag = function(){
-	for(var i = 0;i<this.elements.length;i++){
-		this.elements[i].onmousedown = function(e){
-			preDef(e);	//阻止默认行为
-			var e = getEvent(e);
-			var _this = this //登陆窗口本身
+/*Base.prototype.drag = function(){
+	
+}*/
 
-			var diffX = e.clientX - _this.offsetLeft;
-			var diffY = e.clientY - _this.offsetTop;
-
-			//针对IE划出浏览器时 依然能捕获事件
-			if(typeof _this.setCapture != 'undefined'){
-				_this.setCapture();
-			}
-
-			document.onmousemove = function(e){
-
-				var event = getEvent(e);
-				var left = event.clientX - diffX;
-				var top = event.clientY- diffY;
-
-				//判断是否到达浏览器窗口边界
-				if(left < 0){
-					left = 0;
-				}else if(left > getInner().width - _this.offsetWidth){
-					left = getInner().width - _this.offsetWidth;
-				}
-				if(top < 0){
-					top = 0;
-				}else if(top > getInner().height - _this.offsetHeight){
-					top = getInner().height - _this.offsetHeight;
-				}
-
-				_this.style.left = left + 'px';
-				_this.style.top = top + 'px';
-			}
-			document.onmouseup = function(){
-				this.onmousemove = null;
-				this.onmouseup = null;
-				//针对IE划出浏览器时 依然能捕获事件
-				if(typeof _this.releaseCapture != 'undefined'){
-					_this.releaseCapture();
-				}
-			}
-		};
-	}
-	return this;
-}
+//插件引入入口
+Base.prototype.extend = function(name,fn){
+	Base.prototype[name] = fn;
+};

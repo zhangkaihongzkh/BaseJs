@@ -66,9 +66,11 @@ addEvent.equal = function(es,fn){
 addEvent.fixEvent = function(event){
 	event.preventDefault = addEvent.fixEvent.preventDefault;
 	event.stopPropagation = addEvent.fixEvent.stopPropagation;
+	event.target = event.srcElement;	//兼容IE属性
 	return event;
 };
 
+//IE与W3C方法配对
 //IE阻止默认行为
 addEvent.fixEvent.preventDefault = function(){
 	this.returnValue = false;	
@@ -125,3 +127,8 @@ function preDef(event){
 }
 
 */
+
+//删除前后空格
+function trim(str){
+	return str.replace(/(^\s*)|(\s*$)/g,'');
+}
