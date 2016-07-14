@@ -32,9 +32,22 @@ function addEvent(obj,type,fn){
 	}
 }
 
+//跨浏览器删除事件
+function removeEvent(obj,type,fn){
+	if(typeof obj.removeEventListener != 'undefined'){	//W3C
+		obj.removeEventListener(type,fn,false);
+	}else {
+		for(var i in obj.events[type]){
+			if(obj.events[type][i] == fn){
+				delete obj.events[type][i];
+			}
+		}
+	}
+}
+
 //执行事件处理函数
 addEvent.exec = function(event){
-	var e = event || window.event;
+	var e = event || addEvent.fixEvent(window.event);
 	var es = obj.events[e.type]
 	for(var i in es){
 		es[i].call(this,e);
@@ -49,15 +62,23 @@ addEvent.equal = function(es,fn){
 	return false;
 }
 
+//把IE常用的Event对象配对到W3C中
+addEvent.fixEvent = function(event){
+	event.preventDefault = addEvent.fixEvent.preventDefault;
+	event.stopPropagation = addEvent.fixEvent.stopPropagation;
+	return event;
+};
 
-//跨浏览器删除事件
-function addEvent(obj,type,fn){
-	if(typeof obj.removeEventListener != 'undefined'){	//W3C
-		obj.removeEventListener(type,fn,false);
-	}else {
+//IE阻止默认行为
+addEvent.fixEvent.preventDefault = function(){
+	this.returnValue = false;	
+};
 
-	}
-}
+//IE阻止冒泡
+addEvent.fixEvent.stopPropagation = function(){
+	this.cancelBubble = true;
+};
+
 
 //跨浏览器获取窗口大小
 function getInner(){
@@ -88,7 +109,7 @@ function hasClass(element,className){
 	return element.className.match(new RegExp('(\\s|^)'+className+'(\\s|$)'))
 };
 
-//获取Event对象
+/*//获取Event对象
 function getEvent(event){
 	return event || window.event;
 }
@@ -102,3 +123,5 @@ function preDef(event){
 		e.returnValue = false;
 	}
 }
+
+*/

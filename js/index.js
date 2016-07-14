@@ -30,13 +30,20 @@ window.onload = function(){
 
 	//拖拽
 	$login.drag();
-
+/*
 	var oButton = document.getElementById('button');
-	addEvent(oButton,'click',fn1);
+	addEvent(oButton,'click',fn1);;
 	addEvent(oButton,'click',fn2);
 	addEvent(oButton,'click',fn3);
-	oButton.onclick = function(){
-	}
+	removeEvent(oButton,'click',fn1);*/
+/*	oButton.onclick = function(e){
+		
+	}*/
+	var a = document.getElementById('a');
+	addEvent(a,'click',function(e){
+		e.preventDefault();
+	});
+
 }; 
 
 function fn1(e){
