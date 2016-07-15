@@ -1,7 +1,7 @@
 window.onload = function(){
 
 	//个人中心
-	$().getClassName('menber').hover(function(){
+	/*$().getClassName('menber').hover(function(){
 		$(this).css('background','url(images/arrow2.png) no-repeat 55px center');
 		$().getClassName('menber_ul').show();
 	},function(){
@@ -29,7 +29,7 @@ window.onload = function(){
 	});
 
 	//拖拽
-	$login.drag([$().getTagName('h2').getElement(0)]);
+	$login.drag([$().getTagName('h2').getElement(0)]);*/
 /*
 	var oButton = document.getElementById('button');
 	addEvent(oButton,'click',fn1);;
@@ -42,10 +42,15 @@ window.onload = function(){
 
 	/*alert($().getTagName('h2').getElement(0));
 	alert($().getTagName('span').getElement(0));*/
-	$().getClassName('box1').css('backgroundColor','red');
+	/*$().getClassName('box1').css('backgroundColor','red');
 	$("#box2").css('backgroundColor','green').click(function(){
 		alert($(this).html());
 	});
+
+	$("p").find('span').css('color','red');
+	$("div").find('span').css('color','blue');*/
+	/*$('p').find('.a').css('color','red');*/
+	$('p').find('span').css('color','red');
 }; 
 
 function fn1(e){

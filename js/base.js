@@ -17,12 +17,13 @@ function Base(args){
 	if(typeof args == 'string'){
 		switch(args.charAt(0)){
 			case '#':
-				this.getId(args.substring(1));
+				this.elements.push(this.getId(args.substring(1)));
 				break;
 			case '.':
-				
+				this.elements = this.getClassName(args.substring(1));
 				break;
 			default:
+				this.elements = this.getTagName(args);
 		}
 	}else if(typeof args == 'object'){
 		if(args != undefined){	//_this为一个对象 undefined也是一个对象，与typeof返回的带单引号的undefined不同
@@ -33,25 +34,32 @@ function Base(args){
 
 //获取元素ID
 Base.prototype.getId = function(id){
-	this.elements.push(document.getElementById(id));
-	return this;
+	return document.getElementById(id)
 };
 
 //获取元素标签数组
-Base.prototype.getTagName = function(tag){
-	var tags = document.getElementsByTagName(tag);
-	for(var i = 0;i < tags.length;i++){
-		this.elements.push(tags[i]);
+Base.prototype.getTagName = function(tag,parentNode){
+	var node =null;
+	var temps = [];
+	if(parentNode != undefined){
+		node = parentNode;
+	}else if(arguments.length == 1){
+		node = document;
 	}
-	return this;
+	var tags = node.getElementsByTagName(tag);
+	for(var i = 0;i < tags.length;i++){
+		temps.push(tags[i]);
+	}
+	return temps;
 };
 
 //获取CLASS数组
-Base.prototype.getClassName = function(className,idName){
+Base.prototype.getClassName = function(className,parentNode){
 	//解决区域化的问题
 	var node = null;
-	if(arguments.length == 2){
-		node = document.getElementById(idName);
+	var temps = []
+	if(parentNode != undefined){
+		node = parentNode;
 	}else if(arguments.length == 1){
 		node = document;
 	}
@@ -59,10 +67,10 @@ Base.prototype.getClassName = function(className,idName){
 	var all = node.getElementsByTagName('*');
 	for(var i = 0;i < all.length; i ++){
 		if(all[i].className == className){
-			this.elements.push(all[i]);
+			temps.push(all[i]);
 		}
 	}
-	return this;
+	return temps;
 };
 
 //添加className操作
@@ -108,6 +116,31 @@ Base.prototype.css = function(attr,value){
 		}
 		this.elements[i].style[attr] = value;
 	}
+	return this;
+};
+
+//CSS下寻找子节点
+Base.prototype.find = function(str){
+	var childElement = []	//零时数组 如果循环多次 用来保存循环结果
+	for(var i = 0;i<this.elements.length;i++){
+		switch (str.charAt(0)){
+			case '#':
+				childElement.push(this.getId(str.substring(1)));
+				break;
+			case '.':
+				var temps = this.getClassName(str.substring(1),this.elements[i]);
+				for(var j = 0;j < temps.length;j ++){
+					childElement.push(temps[j]);
+				} 
+				break;
+			default:
+				var temps = this.getTagName(str,this.elements[i]);
+				for(var j = 0;j < temps.length;j++){
+					childElement.push(temps[j]);
+				}
+		}	
+	}
+	this.elements = childElement;
 	return this;
 };
 
