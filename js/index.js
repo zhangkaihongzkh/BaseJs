@@ -50,7 +50,8 @@ window.onload = function(){
 	$("p").find('span').css('color','red');
 	$("div").find('span').css('color','blue');*/
 	/*$('p').find('.a').css('color','red');*/
-	$('p').find('span').css('color','red');
+	/*$('p').find('span').css('color','red');*/
+	$('p .a').css('color','red');
 }; 
 
 function fn1(e){

@@ -15,15 +15,54 @@ var $ = function(args){
 function Base(args){
 	this.elements = [];	//把返回的节点对象保存在Base对象的属性数组中
 	if(typeof args == 'string'){
-		switch(args.charAt(0)){
-			case '#':
-				this.elements.push(this.getId(args.substring(1)));
-				break;
-			case '.':
-				this.elements = this.getClassName(args.substring(1));
-				break;
-			default:
-				this.elements = this.getTagName(args);
+		//CSS方法模拟查找
+		if(args.indexOf(' ') != -1){	//传入参数中带有空格
+			var elements = args.split(' ');	//将节点分别拆开保存 保存每一个id class 和标签
+			var childElements = []			//用来保存临时节点，防止elements被覆盖
+			var node = []					//用来保存父节点
+			if(node.length == 0){
+				node.push(document);		//如果没有前缀 则设为document
+			}
+			for(var i = 0;i < elements.length;i ++){
+				switch(elements[i].charAt(0)){
+					case '#':
+						childElements = [];			//清理父节点，一遍子节点有效，父节点失效
+						childElements.push(this.getId(elements[i].substring(1)));
+						node = childElements;
+						break;
+					case '.':
+						childElements = [];
+						for(var j = 0; j < node.length; j ++){
+							var temps = this.getClassName(elements[i].substring(1),node[j]);
+							for(var k = 0; k < temps.length; k ++){
+								childElements.push(temps[k]);
+							}
+						}
+						node = childElements;
+						break;
+					default:
+						childElements = [];	
+						for(var j = 0; j < node.length; j ++){
+							var temps = this.getTagName(elements[i],node[j]);
+							for(var k = 0; k < temps.length; k ++){
+								childElements.push(temps[k]);
+							}
+						}
+						node = childElements;
+				}
+			}
+			this.elements = childElements;
+		}else{//find方法模拟查找
+			switch(args.charAt(0)){
+				case '#':
+					this.elements.push(this.getId(args.substring(1)));
+					break;
+				case '.':
+					this.elements = this.getClassName(args.substring(1));
+					break;
+				default:
+					this.elements = this.getTagName(args);
+			}
 		}
 	}else if(typeof args == 'object'){
 		if(args != undefined){	//_this为一个对象 undefined也是一个对象，与typeof返回的带单引号的undefined不同
