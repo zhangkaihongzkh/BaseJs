@@ -1,14 +1,4 @@
-/*var Base = {
-	getId:function(id){
-		return document.getElementById(id);
-	},
-	getName:function(name){
-		return document.getElementsByName(name);
-	},
-	getTagName:function(tagName){
-		return document.getElementsByTagName(tagName);
-	}
-}*/
+
 var $ = function(args){
 	return new Base(args);
 }
@@ -68,7 +58,14 @@ function Base(args){
 		if(args != undefined){	//_this为一个对象 undefined也是一个对象，与typeof返回的带单引号的undefined不同
 			this.elements[0] = args;
 		}
+	}else if(typeof args == 'function'){
+		addDomLoaded(args);
 	}
+
+};
+
+Base.prototype.ready = function(fn){
+	addDomLoaded(fn);
 };
 
 //获取元素ID
@@ -94,7 +91,7 @@ Base.prototype.getTagName = function(tag,parentNode){
 
 //获取CLASS数组
 Base.prototype.getClassName = function(className,parentNode){
-	//解决区域化的问题
+	//parentNode 解决区域化的问题
 	var node = null;
 	var temps = []
 	if(parentNode != undefined){
@@ -134,7 +131,7 @@ Base.prototype.removeClass = function(className){
 }
 
 //获取到节点数组某一个节点，并返回这个节点
-Base.prototype.getElement = function(num){
+Base.prototype.ge = function(num){
 	return this.elements[num];
 };
 

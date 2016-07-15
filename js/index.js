@@ -1,7 +1,7 @@
-window.onload = function(){
+/*window.onload = function(){
 
 	//个人中心
-	/*$().getClassName('menber').hover(function(){
+	$().getClassName('menber').hover(function(){
 		$(this).css('background','url(images/arrow2.png) no-repeat 55px center');
 		$().getClassName('menber_ul').show();
 	},function(){
@@ -29,7 +29,7 @@ window.onload = function(){
 	});
 
 	//拖拽
-	$login.drag([$().getTagName('h2').getElement(0)]);*/
+	$login.drag([$().getTagName('h2').getElement(0)]);
 /*
 	var oButton = document.getElementById('button');
 	addEvent(oButton,'click',fn1);;
@@ -54,24 +54,40 @@ window.onload = function(){
 	/*$('p .a').css('color','red');*/
 
 	//浏览器检测
-	(function(){
-		window.sys = {};
-		var ua = navigator.userAgent.toLowerCase();
-		var s;
-		(s = ua.match(/msie ([\d.]+)/)) ? sys.ie = s[1] :
-		(s = ua.match(/firefox\/([\d.]+)/)) ? sys.firefox = s[1] :
-		(s = ua.match(/chrome\/([\d.]+)/)) ? sys.chrome = s[1] :
-		(s = ua.match(/opera.*version\/([\d.]+)/)) ? sys.opera = s[1] :
-		(s = ua.match(/version\/([\d.]+).*safari/)) ? sys.safari = s[1] : 0
-	})();
-}; 
+//}; */
 
-function fn1(e){
-	alert('1' + this.value + e.clientX);
-}
-function fn2(e){
-	alert('2' + this.value + e.clientX);
-}
-function fn3(e){
-	alert('3' + this.value + e.clientX);
-}
+/*$(function(){
+	alert(document.body);
+});*/
+
+$(function(){
+	//个人中心
+	$('.menber').hover(function(){
+		$(this).css('background','url(images/arrow2.png) no-repeat 55px center');
+		$('.menber_ul').show();
+	},function(){
+		$(this).css('background','url(images/arrow.png) no-repeat 55px center');
+		$('.menber_ul').hide();
+	});
+
+	//登陆框
+	var $login = $('#login');
+	var $screen = $('#screen');
+	$login.center(350,250).resize(function(){
+		if($login.css('display') == 'block'){
+			$('#screen').lock();
+		}
+	});
+	$('.login').click(function(){
+		$login.center(350,250)
+		$login.css('display','block');
+		$('#screen').lock();
+	});
+	$('.close').click(function(){
+		$login.css('display','none');
+		$('#screen').unlock();
+	});
+
+	//拖拽
+	$login.drag($('h2').ge(0),$('.other').ge(0));
+});
