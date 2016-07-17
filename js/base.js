@@ -135,6 +135,16 @@ Base.prototype.ge = function(num){
 	return this.elements[num];
 };
 
+//获取节点数组第一个节点 并返回节点对象
+Base.prototype.first = function(){
+	return this.elements[0];
+}
+
+//获取节点数组最后一个节点，并返回节点对象
+Base.prototype.last = function(){
+	return this.elements[this.elements.length - 1];
+}
+
 //获取到节点数组某一个节点，并返回Base对象
 Base.prototype.eq = function(num){
 	//点获取到节点 然后将节点数组清空 再将所获取节点赋值给第一个
@@ -249,6 +259,58 @@ Base.prototype.unlock = function(){
 Base.prototype.click = function(fn){
 	for(var i = 0;i < this.elements.length;i++){
 		this.elements[i].onclick = fn;
+	}
+	return this;
+};
+
+Base.prototype.animate = function (obj) {
+	for (var i = 0; i < this.elements.length; i ++) {
+		var element = this.elements[i];
+		var attr = obj['attr'] == 'x' ? 'lef' : obj['attr'] == 'y' ? 'top' : 
+					obj['attr'] == 'w' ? 'width' : obj['attr'] == 'h' ? 'height' : 'left';										//可选，x和y两种值，不传递则默认left
+		var start = obj['start'] != undefined ? obj['start'] : getStyle(element, attr);		//可选，默认是CSS的起始位置
+		var t = obj['t'] != undefined ? obj['t'] : 50;										//可选，默认50毫秒执行一次
+		var step = obj['step'] != undefined ? obj['step'] : 10;								//可选，每次运行10像素
+		
+		var speed = obj['speed'] != undefined ? obj['speed'] : 6;							//缓冲运动的速度
+		var type = obj['type'] == 0 ? 'constrant' : obj['type'] == 1 ? 'buffer' : 'buffer'; //可选 运动方式 默认是缓冲运动
+		
+		var alter = obj['alter'];
+		var target = obj['target'];
+
+		if (alter != undefined && target == undefined) {
+			target = alter + start;
+		} else if (alter == undefined && target == undefined) {
+			throw new Error('alter增量或target目标量必须传一个！');
+		}
+
+		if (start > target) step = -step;
+		element.style[attr] = start + 'px';
+		clearInterval(window.timer);
+		timer = setInterval(function () {
+			
+			if(type == 'buffer'){
+				//缓冲运动修改速度值
+				step = (target - getStyle(element, attr)) / speed;
+				step = step > 0 ? Math.ceil(step) : Math.floor(step);
+			}
+			if (step == 0) {
+				setTarget();
+			} else if (step > 0 && Math.abs(getStyle(element, attr) - target) <= step) {
+				setTarget();
+			} else if (step < 0 && (getStyle(element, attr) - target) <= Math.abs(step)) {
+				setTarget();
+			} else {
+				//放在else永远不会和停止运动通知执行，就不会出现303同时剪到300的问题
+				//但是会出现不同时剪到300的问题，导致突兀
+				element.style[attr] = getStyle(element, attr) + step + 'px';
+			}
+			/*console.log(step);*/
+		}, t);
+	}
+	function setTarget(){
+		element.style[attr] = target + 'px';
+		clearInterval(timer);
 	}
 	return this;
 };

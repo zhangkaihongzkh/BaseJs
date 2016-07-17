@@ -78,16 +78,29 @@ $(function(){
 			$('#screen').lock();
 		}
 	});
-	$('.login').click(function(){
+	$('#header .login').click(function(){
 		$login.center(350,250)
 		$login.css('display','block');
 		$('#screen').lock();
 	});
-	$('.close').click(function(){
+	$('#login .close').click(function(){
 		$login.css('display','none');
 		$('#screen').unlock();
 	});
 
 	//拖拽
-	$login.drag($('h2').ge(0),$('.other').ge(0));
+	$login.drag($('#login h2').first(),$('#login .other').first());
+
+	//测试动画
+
+	$('#box1').animate({
+		'attr':'h',
+		/*'alter':300,*/
+		/*'step':7*/
+		'type':1,
+		'speed':10,
+
+	});
+
+
 });

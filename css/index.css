@@ -139,3 +139,20 @@ body{
 	text-align: right;
 	color: #666;
 }
+/* 测试动画效果 */
+#box1{
+	width: 600px;
+	height: 500px;
+	position: absolute;
+	left: 0;
+	top: 30px;
+	background-color: red;
+	
+}
+#box1>div{
+	width: 100px;
+	height: 50px;
+	line-height: 50px;
+	margin: 10px 0;
+	background-color: #b5b5b5;
+}
