@@ -74,8 +74,8 @@ body{
 	left: 0;
 	top: 0;
 	width: 100%;
-	filter: alpha(opacity=30);
-	opacity: 0.3;
+	filter: alpha(opacity=0);
+	opacity: 0;
 	display: none; 
 }
 
@@ -263,4 +263,14 @@ body{
 	left:210px;
 	background:url(../images/share.png) no-repeat;
 	cursor:pointer;
+}
+
+/* 测试 */
+#test{
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	left: 100px;
+	width: 100px;
+	background-color: red;
 }

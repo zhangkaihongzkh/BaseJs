@@ -79,30 +79,61 @@ $(function(){
 		}
 	});
 	$('#header .login').click(function(){
-		$login.center(350,250)
-		$login.css('display','block');
+		$login.center(350,250).css('display','block');
 		$('#screen').lock();
+		$('#screen').animate({
+			attr:'o',
+			target:30,
+			step:10,
+			t:30
+		});
 	});
 	$('#login .close').click(function(){
 		$login.css('display','none');
-		$('#screen').unlock();
+		$('#screen').animate({
+			attr:'o',
+			target:0,
+			step:10,
+			t:30,
+			fn:function(){
+				$screen.unlock();
+			}		
+		});
+	});
+
+	//测试
+	$('#test').click(function(){
+		var _this = this;
+		$(_this).animate({
+			/*attr:'w',
+			target:200,
+			step:10,
+			t:30,
+			fn:function(){
+				$(_this).animate({
+					attr:'h',
+					target:200,
+					step:10,
+					t:30,
+					fn:function(){
+						$(_this).animate({
+							attr:'o',
+							target:30,
+							step:10,
+							t:30
+						})
+					}
+				})
+			}	*/
+			attr:'o',
+			target:30,
+			step:10,
+			t:30
+		});
 	});
 
 	//拖拽
 	$login.drag($('#login h2').first(),$('#login .other').first());
-
-	//测试动画
-/*
-	$('#box1').animate({
-		'attr':'h',
-		/*'alter':300,*/
-		/*'step':7*/
-	//	'type':0,
-	//	'speed':10,
-	//	'opacity':30,
-	//	'target':100
-
-	//});
 
 	//百度分享初始位置
 	$('#share').css('top', (getInner().height - parseInt(getStyle($('#share').first(), 'height'))) / 2

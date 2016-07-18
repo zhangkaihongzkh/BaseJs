@@ -252,6 +252,7 @@ Base.prototype.unlock = function(){
 	for(var i = 0;i < this.elements.length;i ++){
 		this.elements[i].style.display = 'none';
 		document.documentElement.style.overflow = 'auto';//还原滚动条
+
 	}
 };
 
@@ -305,8 +306,8 @@ Base.prototype.animate = function (obj) {
 		}
 		
 		
-		clearInterval(window.timer);
-		timer = setInterval(function () {
+		clearInterval(element.timer);
+		element.timer = setInterval(function () {
 		
 			if (type == 'buffer') {
 				step = attr == 'opacity' ? (target - parseFloat(getStyle(element, attr)) * 100) / speed :
@@ -346,13 +347,19 @@ Base.prototype.animate = function (obj) {
 		
 		function setTarget() {
 			element.style[attr] = target + 'px';
-			clearInterval(timer);
+			clearInterval(element.timer);
+			if(obj.fn != undefined){
+				obj.fn();
+			}
 		}
 		
 		function setOpacity() {
 			element.style.opacity = parseInt(target) / 100;
 			element.style.filter = 'alpha(opacity=' + parseInt(target) + ')';
-			clearInterval(timer);
+			clearInterval(element.timer);
+			if(obj.fn != undefined){
+				obj.fn();
+			}
 		}
 	}
 	return this;

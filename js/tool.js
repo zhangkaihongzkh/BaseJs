@@ -153,9 +153,9 @@ function getInner(){
 function getStyle(element,attr){
 	var value;
 	if(typeof window.getComputedStyle != 'undefined'){	//W3C
-		value =  parseInt(window.getComputedStyle(element,null)[attr]);
+		value =  window.getComputedStyle(element,null)[attr];
 	}else if(typeof element.currentStyle != 'undefined'){	//IE
-		value =  parseInt(element.currentStyle[attr]);
+		value =  element.currentStyle[attr];
 	}
 	return value;
 }
