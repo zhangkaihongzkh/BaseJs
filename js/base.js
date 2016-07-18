@@ -270,7 +270,7 @@ Base.prototype.animate = function (obj) {
 		var element = this.elements[i];
 		var attr = obj['attr'] == 'x' ? 'left' : obj['attr'] == 'y' ? 'top' : 
 					   obj['attr'] == 'w' ? 'width' : obj['attr'] == 'h' ? 'height' : 
-					   obj['attr'] == 'o' ? 'opacity' : 'left';
+					   obj['attr'] == 'o' ? 'opacity' : obj['attr'] != undefined ? obj['attr'] : 'left';
 
 		
 		var start = obj['start'] != undefined ? obj['start'] : 
@@ -280,6 +280,8 @@ Base.prototype.animate = function (obj) {
 		var t = obj['t'] != undefined ? obj['t'] : 30;												//可选，默认30毫秒执行一次
 		var step = obj['step'] != undefined ? obj['step'] : 10;								//可选，每次运行10像素
 		
+		var mul = obj['mul'];		//同步动画用于传入的键值对
+
 		var alter = obj['alter'];
 		var target = obj['target'];
 		
@@ -290,12 +292,10 @@ Base.prototype.animate = function (obj) {
 		
 		if (alter != undefined && target == undefined) {
 			target = alter + start;
-		} else if (alter == undefined && target == undefined) {
+		} else if (alter == undefined && target == undefined && mul == undefined) {
 			throw new Error('alter增量或target目标量必须传一个！');
 		}
-		
-		
-		
+			
 		if (start > target) step = -step;
 		
 		if (attr == 'opacity') {
@@ -309,39 +309,42 @@ Base.prototype.animate = function (obj) {
 		clearInterval(element.timer);
 		element.timer = setInterval(function () {
 		
-			if (type == 'buffer') {
-				step = attr == 'opacity' ? (target - parseFloat(getStyle(element, attr)) * 100) / speed :
-													 (target - parseInt(getStyle(element, attr))) / speed;
-				step = step > 0 ? Math.ceil(step) : Math.floor(step);
-			}
-			
-			
-			
-			if (attr == 'opacity') {
-				if (step == 0) {
-					setOpacity();
-				} else if (step > 0 && Math.abs(parseFloat(getStyle(element, attr)) * 100 - target) <= step) {
-					setOpacity();
-				} else if (step < 0 && (parseFloat(getStyle(element, attr)) * 100 - target) <= Math.abs(step)) {
-					setOpacity();
-				} else {
-					var temp = parseFloat(getStyle(element, attr)) * 100;
-					element.style.opacity = parseInt(temp + step) / 100;
-					element.style.filter = 'alpha(opacity=' + parseInt(temp + step) + ')'
+			for(var i in mul){
+				attr = i == 'x' ? 'left' : i == 'y' ? 'top' : i == 'w' ? 'width' : i == 'h' ? 'height' : i == 'o' ? 'opacity' : i != 'undefined' ? i : left;
+				target = mul[i];
+				if (type == 'buffer') {
+					step = attr == 'opacity' ? (target - parseFloat(getStyle(element, attr)) * 100) / speed :
+														 (target - parseInt(getStyle(element, attr))) / speed;
+					step = step > 0 ? Math.ceil(step) : Math.floor(step);
 				}
+				
+				
+				
+				if (attr == 'opacity') {
+					if (step == 0) {
+						setOpacity();
+					} else if (step > 0 && Math.abs(parseFloat(getStyle(element, attr)) * 100 - target) <= step) {
+						setOpacity();
+					} else if (step < 0 && (parseFloat(getStyle(element, attr)) * 100 - target) <= Math.abs(step)) {
+						setOpacity();
+					} else {
+						var temp = parseFloat(getStyle(element, attr)) * 100;
+						element.style.opacity = parseInt(temp + step) / 100;
+						element.style.filter = 'alpha(opacity=' + parseInt(temp + step) + ')'
+					}
 
-			} else {
-				if (step == 0) {
-					setTarget();
-				} else if (step > 0 && Math.abs(parseInt(getStyle(element, attr)) - target) <= step) {
-					setTarget();
-				} else if (step < 0 && (parseInt(getStyle(element, attr)) - target) <= Math.abs(step)) {
-					setTarget();
 				} else {
-					element.style[attr] = parseInt(getStyle(element, attr)) + step + 'px';
+					if (step == 0) {
+						setTarget();
+					} else if (step > 0 && Math.abs(parseInt(getStyle(element, attr)) - target) <= step) {
+						setTarget();
+					} else if (step < 0 && (parseInt(getStyle(element, attr)) - target) <= Math.abs(step)) {
+						setTarget();
+					} else {
+						element.style[attr] = parseInt(getStyle(element, attr)) + step + 'px';
+					}
 				}
 			}
-
 			//document.getElementById('aaa').innerHTML += step + '<br />';
 		}, t);
 		
