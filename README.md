@@ -14,6 +14,6 @@
 
 - 若为'string' 说明传入的是字符串
 >   
->   - 先用args.indexOf(' ') != 1判断传入是否有空格 若没有说明只传入一个
->   - 若有空格 则用elements 保存 **split(' ')** 分隔后的字符串 同时childElements 保存子节点 
+>   - 先用args.indexOf(' ') != 1判断传入是否有空格 若没有说明只传入一个 用args。charAt(0) 判断第一个符号是 # . 还是 空 
+>   - 若有空格 则用elements 保存 **split(' ')** 分隔后的字符串 同时childElements 保存子节点 然后对elements进行遍历 遍历过程中 判断 elements[i]。charAt(0)第一个字符为# . 还是空 在对应的分支下 进行处理 用 Base原型上封装好的函数 getId getClassName getTagName 
 >   
