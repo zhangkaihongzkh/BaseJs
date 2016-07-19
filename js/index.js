@@ -111,14 +111,41 @@ $(function(){
 	//百度分享收缩功能
 	$('#share').hover(function(){
 		$(this).animate({
-			'attr':'x',
-			'target':0
+			step:100,
+			t:10,
+			attr:'x',
+			target:0
 		});
 	},function(){
 		$(this).animate({
-			'attr':'x',
-			'target':-210
+			step:100,
+			t:10,
+			attr:'x',
+			target:-210
 		});
 	});
 
+	//左侧信息菜单
+	$('#sidebar h2').toggle(function(){
+		$(this).next().animate({
+			attr:'h',
+			target:0
+		});
+	},function(){
+		$(this).next().animate({
+			attr:'h',
+			target:150
+		});
+	});
+
+
+	//测试
+	$('#btn').toggle(function(){
+		$('#test').css('backgroundColor','green');
+	},function(){
+		$('#test').css('backgroundColor','red');
+	});
+
+	console.log($('#test').next());
+	
 });
