@@ -361,7 +361,9 @@ Base.prototype.animate = function (obj) {
 			
 			if(flag){
 				clearInterval(element.timer);
-				obj.fn();
+				if(obj.fn != undefined ){
+					obj.fn();
+				}
 			}
 		}, t);
 		
@@ -400,6 +402,18 @@ Base.prototype.resize = function(fn){
 /*Base.prototype.drag = function(){
 	
 }*/
+
+//切换函数
+Base.prototype.toggle = function(){
+	for(var i = 0; i < this.elements.length; i ++){
+		var count = 0;
+		var args = arguments;
+		addEvent(this.elements[i],'click',function(){
+			args[count++ % args.length]();
+		});
+	}
+	return this;
+};
 
 //插件引入入口
 Base.prototype.extend = function(name,fn){
