@@ -5,7 +5,7 @@ body{
 	color: #333;
 	background: url(../images/header_bg.png) repeat-x;
 }
-ul{
+ul,dl,dd,h2 {
 	padding: 0;
 	margin: 0;
 }
@@ -89,26 +89,6 @@ ul li{
 	display: none; 
 }
 
-/* 登陆注册框相同部分 */
-#reg h2 img,
-#login h2 img{
-	position: relative;
-	float: right;
-	cursor: pointer;
-}
-#reg h2,
-#login h2{
-	height: 40px;
-	line-height: 40px;
-	text-align: center;
-	font-size: 14px;
-	letter-spacing: 1px;
-	color: #666;
-	background: url(../images/login_header.png) repeat-x;
-	padding: 0;
-	border-bottom: 1px solid #ccc;
-	cursor: move;
-}
 
 /* 注册框 */
 #reg{
@@ -121,15 +101,28 @@ ul li{
 	background: #fff;
 }
 #reg h2{
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	font-size: 14px;
+	letter-spacing: 1px;
+	color: #666;
+	background: url(../images/login_header.png) repeat-x;
+	padding: 0;
+	border-bottom: 1px solid #ccc;
+	cursor: move;
 	margin: 0 0 20px 0;
 }
 #reg h2 img{
 	top: 14px;
 	right: 8px;
+	position: relative;
+	float: right;
+	cursor: pointer;
 }
 #reg dl{
 	margin: 20px;
-	padding: 0 0 20px 0;
+	padding: 0 0  0 10px;
 	font-size: 14px;
 	color: #666;
 }
@@ -137,7 +130,7 @@ ul li{
 	height: 30px;
 	padding: 5px 0;
 }
-#reg dl dd input,
+#reg dl dd input.text,
 #reg dl dd select{
 	width: 200px;
 	height: 25px;
@@ -179,12 +172,25 @@ ul li{
 }
 
 #login h2{
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	font-size: 14px;
+	letter-spacing: 1px;
+	color: #666;
+	background: url(../images/login_header.png) repeat-x;
+	padding: 0;
+	border-bottom: 1px solid #ccc;
+	cursor: move;
 	margin: 0 0 10px 0;
 }
 
 #login h2 img{
 	right: 8px;
 	top: 13px;
+	position: relative;
+	float: right;
+	cursor: pointer;
 }
 #login div.user,#login div.pass{
 	font-size: 14px;
