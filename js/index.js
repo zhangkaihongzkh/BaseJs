@@ -63,9 +63,40 @@ $(function(){
 		});
 	});
 
+	//注册框
+	var $reg = $('#reg');
+	$reg.center(600,550).resize(function(){
+		if($reg.css('display') == 'block'){
+			$screen.lock();
+		}
+	});
+	$('#header .reg').click(function(){
+		$reg.center(600,550).css('display','block');
+		$('#screen').lock();
+		$('#screen').animate({
+			attr:'o',
+			target:30,
+			step:10,
+			t:30
+		});
+	});
+	$('#reg .close').click(function(){
+		$reg.css('display','none');
+		$screen.animate({
+			attr:'o',
+			target:0,
+			step:10,
+			t:30,
+			fn:function(){
+				$screen.unlock();
+			}		
+		});
+	});
+
 	
 	//拖拽
-	$login.drag($('#login h2').first(),$('#login .other').first());
+	$login.drag($('#login h2').first());
+	$reg.drag($('#reg h2').last());
 
 	//滑动导航栏
 	$('#nav .about li').hover(function () {
@@ -74,7 +105,7 @@ $(function(){
 			attr : 'x',
 			target : target + 20,
 			t : 30,
-			step : 10,
+			step : 30,
 			fn : function () {
 				$('#nav .white').animate({
 					attr : 'x',
@@ -87,7 +118,7 @@ $(function(){
 			attr : 'x',
 			target : 20,
 			t : 30,
-			step : 10,
+			step : 30,
 			fn : function () {
 				$('#nav .white').animate({
 					attr : 'x',
@@ -128,11 +159,15 @@ $(function(){
 	//左侧信息菜单
 	$('#sidebar h2').toggle(function(){
 		$(this).next().animate({
+			step:50,
+			t:10,
 			attr:'h',
 			target:0
 		});
 	},function(){
 		$(this).next().animate({
+			step:50,
+			t:10,
 			attr:'h',
 			target:150
 		});
