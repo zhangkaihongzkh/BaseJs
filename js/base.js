@@ -406,11 +406,13 @@ Base.prototype.resize = function(fn){
 //切换函数
 Base.prototype.toggle = function(){
 	for(var i = 0; i < this.elements.length; i ++){
-		var count = 0;
-		var args = arguments;
-		addEvent(this.elements[i],'click',function(){
-			args[count++ % args.length]();
-		});
+		(function(element,args){
+			var count = 0;
+			addEvent(element,'click',function(){
+				args[count++ % args.length].call(this);
+			});
+		})(this.elements[i],arguments);
+		
 	}
 	return this;
 };
