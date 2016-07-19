@@ -96,7 +96,7 @@ ul li{
 	height: 550px;
 	border: 1px solid #ccc;
 	position: absolute;
-	display: none;
+/* 	display: none; */
 	z-index: 9999;
 	background: #fff;
 }
@@ -127,6 +127,7 @@ ul li{
 	color: #666;
 }
 #reg dl dd{
+	position: relative;
 	height: 30px;
 	padding: 5px 0;
 }
@@ -158,6 +159,47 @@ ul li{
 	border: none;
 	cursor: pointer;
 	margin: 0 auto;
+}
+#reg dl dd span.info, #reg dl dd span.error, #reg dl dd span.succ {
+	display:block;
+	font-size:12px;
+	color:#333;
+	width:165px;
+	height:32px;
+	line-height:32px;
+	padding:0 0 0 35px;
+	position:absolute;
+	letter-spacing:1px;
+	display:none;
+}
+#reg dl dd span.info {
+	background:url(images/reg_info.png) no-repeat;
+}
+#reg dl dd span.error {
+	background:url(../images/reg_error.png) no-repeat;
+}
+#reg dl dd span.succ {
+	height:14px;
+	line-height:14px;
+	background:url(../images/reg_succ.png) no-repeat;
+	padding:0 0 0 20px;
+	color:green;
+}
+#reg dl dd span.info_user {
+	height:43px;
+	line-height:18px;
+	padding-top:7px;
+	background:url(../images/reg_info2.png) no-repeat;
+	top:3px;
+	left:295px;
+}
+#reg dl dd span.error_user {
+	top:3px;
+	left:295px;
+}
+#reg dl dd span.succ_user {
+	top:12px;
+	left:295px;
 }
 
 /* 登陆框 */

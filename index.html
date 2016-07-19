@@ -38,7 +38,11 @@
 		<h2><img class="close" alt="" src="images/close.png">注册新用户</h2>
 		<form name="reg">
 			<dl>
-				<dd>用 户 名: <input type="text" name="user" class="text"></dd>
+				<dd>用 户 名: <input type="text" name="user" class="text">
+					<span class="info info_user">请输入用户名，2~20 位，由字母、数字和下划线组成！</span>
+					<span class="error error_user">输入不合法，请重新输入！</span>
+					<span class="succ succ_user">可用</span>
+				</dd>
 				<dd>密&nbsp;&nbsp;码: <input type="password" name="pass" class="text"></dd>
 				<dd>确认密码: <input type="password" name="notpass" class="text"></dd>
 				<dd>

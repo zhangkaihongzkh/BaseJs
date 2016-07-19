@@ -102,7 +102,8 @@ Base.prototype.getClassName = function(className,parentNode){
 	//先获取到所有节点 再循环逐一比较
 	var all = node.getElementsByTagName('*');
 	for(var i = 0;i < all.length; i ++){
-		if(all[i].className == className){
+		//多个class正则获取
+		if ((new RegExp('(\\s|^)' +className +'(\\s|$)')).test(all[i].className)) {
 			temps.push(all[i]);
 		}
 	}
@@ -441,6 +442,33 @@ Base.prototype.toggle = function(){
 			});
 		})(this.elements[i],arguments);
 		
+	}
+	return this;
+};
+
+//绑定一个事件方法
+Base.prototype.bind = function(event,fn){
+	for(var i = 0; i < this.elements.length; i ++){
+		addEvent(this.elements[i],event,fn);
+	}
+	return this;
+};
+
+//获取到表单字段的方法
+Base.prototype.form = function(name){
+	for (var i = 0; i < this.elements.length; i ++){
+		this.elements[i] = this.elements[i][name];
+	}
+	return this;
+};
+
+//设置表单value内容
+Base.prototype.value = function(str){
+	for(var i = 0; i < this.elements.length; i ++){
+		if(arguments.length == 0){
+			return this.elements[i].value;
+		}
+		this.elements[i].value = str;
 	}
 	return this;
 };

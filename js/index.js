@@ -93,6 +93,27 @@ $(function(){
 		});
 	});
 
+	//注册框校验
+	$('form').form('user').bind('focus', function () {
+		$('#reg .info_user').css('display', 'block');
+		$('#reg .error_user').css('display', 'none');
+		$('#reg .succ_user').css('display', 'none');
+	}).bind('blur', function () {
+		if (trim($(this).value()) == '') {
+			$('#reg .info_user').css('display', 'none');
+			$('#reg .error_user').css('display', 'none');
+			$('#reg .succ_user').css('display', 'none');
+		} else if (!/[a-zA-Z0-9_]{2,20}/.test(trim($(this).value()))) {
+			$('#reg .error_user').css('display', 'block');
+			$('#reg .info_user').css('display', 'none');
+			$('#reg .succ_user').css('display', 'none');
+		} else {
+			$('#reg .succ_user').css('display', 'block');
+			$('#reg .error_user').css('display', 'none');
+			$('#reg .info_user').css('display', 'none');
+		}
+	});
+
 	
 	//拖拽
 	$login.drag($('#login h2').first());
@@ -181,6 +202,12 @@ $(function(){
 		$('#test').css('backgroundColor','red');
 	});
 
-	console.log($('#test').next());
+/*	$('#btn').bind('click',function(){
+		alert("");
+	});*/
+/*	$('form').form('user').bind('focus',function(){
+		alert($(this).value());
+	});*/
+
 	
 });
