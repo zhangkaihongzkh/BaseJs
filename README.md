@@ -37,3 +37,10 @@
 - **extend(name,fn)**
 通过在原型上定义extend方法 传入两个参数 插件名称name 和 函数fn extend内部赋予 Base.prototype[name] = fn; 
 - 外部插件引入的时候通过 $().extend(name,function(){})即可
+
+### tool.js中跨浏览器添加/移除事件
+- 主要是实现模拟IE处理 同时解决IE事件不顺序处理
+- 绑定事件function addEvent(obj,type,fn)
+> 先通过 typeof obj.addEventListener != 'undefined' 是否为W3C 还是IE
+> - 若为IE 
+> - 1. 先创建一个存放事件的哈希表

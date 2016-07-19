@@ -5,6 +5,14 @@ body{
 	color: #333;
 	background: url(../images/header_bg.png) repeat-x;
 }
+ul{
+	padding: 0;
+	margin: 0;
+}
+ul li{
+	list-style: none;
+}
+
 #header{
 	height: 30px;
 	width: 900px;
@@ -39,7 +47,8 @@ body{
 	border: 1px solid #999;
 	border-top: none;
 	padding: 10px 0 0 0;
-
+	opacity: 0;
+	filter: alpha(opacity=0);
 }
 #header ul li{
 	height: 25px;
@@ -138,6 +147,55 @@ body{
 	padding: 15px 10px;
 	text-align: right;
 	color: #666;
+}
+
+/* 滑动导航栏 */
+#nav {
+	width:465px;
+	height:52px;
+	background:url(../images/nav_bg.png) no-repeat;
+	margin:50px auto 0 auto;
+	position:relative;
+}
+#nav ul {
+	position:absolute;
+}
+#nav ul li {
+	width:85px;
+	height:52px;
+	line-height:52px;
+	text-align:center;
+	font-weight:bold;
+	float:left;
+}
+#nav ul.black {
+	left:20px;
+	color:#333;
+	z-index:1;
+}
+#nav ul.white {
+	width:425px;
+	color:#fff;
+	z-index:3;
+	left:0;
+}
+#nav ul.about {
+	z-index:4;
+	left:20px;
+	cursor:pointer;
+	background:red;
+	filter:alpha(opacity=0);
+	opacity:0;
+}
+#nav div.nav_bg {
+	width:85px;
+	height:52px;
+	background:url(../images/nav_over.png) no-repeat 0 11px;
+	position:absolute;
+	left:20px;
+	top:0px;
+	z-index:2;
+	overflow:hidden;
 }
 
 /* 百度分享 */
@@ -265,6 +323,8 @@ body{
 	cursor:pointer;
 }
 
+
+
 /* 测试 */
 #test{
 	width: 100px;
@@ -274,3 +334,4 @@ body{
 	width: 100px;
 	background-color: red;
 }
+

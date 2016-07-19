@@ -70,7 +70,7 @@ Base.prototype.ready = function(fn){
 
 //获取元素ID
 Base.prototype.getId = function(id){
-	return document.getElementById(id)
+	return document.getElementById(id);
 };
 
 //获取元素标签数组
@@ -289,7 +289,12 @@ Base.prototype.animate = function (obj) {
 		var speed = obj['speed'] != undefined ? obj['speed'] : 6;							//可选，默认缓冲速度为6
 		var type = obj['type'] == 0 ? 'constant' : obj['type'] == 1 ? 'buffer' : 'buffer';		//可选，0表示匀速，1表示缓冲，默认缓冲
 		
-		
+		//如果为单组动画
+		if(mul == undefined){
+			mul = {};
+			mul[attr] = target;
+		}
+
 		if (alter != undefined && target == undefined) {
 			target = alter + start;
 		} else if (alter == undefined && target == undefined && mul == undefined) {
@@ -309,6 +314,7 @@ Base.prototype.animate = function (obj) {
 		clearInterval(element.timer);
 		element.timer = setInterval(function () {
 		
+			var flag = true;		
 			for(var i in mul){
 				attr = i == 'x' ? 'left' : i == 'y' ? 'top' : i == 'w' ? 'width' : i == 'h' ? 'height' : i == 'o' ? 'opacity' : i != 'undefined' ? i : left;
 				target = mul[i];
@@ -332,6 +338,9 @@ Base.prototype.animate = function (obj) {
 						element.style.opacity = parseInt(temp + step) / 100;
 						element.style.filter = 'alpha(opacity=' + parseInt(temp + step) + ')'
 					}
+					if(parseInt(target) != parseInt(parseFloat(getStyle(element,attr)*100))){
+						flag = false;
+					}
 
 				} else {
 					if (step == 0) {
@@ -343,26 +352,26 @@ Base.prototype.animate = function (obj) {
 					} else {
 						element.style[attr] = parseInt(getStyle(element, attr)) + step + 'px';
 					}
+					if(parseInt(target) != parseInt(getStyle(element,attr))){
+						flag = false;
+					}
 				}
 			}
 			//document.getElementById('aaa').innerHTML += step + '<br />';
+			
+			if(flag){
+				clearInterval(element.timer);
+				obj.fn();
+			}
 		}, t);
 		
 		function setTarget() {
 			element.style[attr] = target + 'px';
-			clearInterval(element.timer);
-			if(obj.fn != undefined){
-				obj.fn();
-			}
 		}
 		
 		function setOpacity() {
 			element.style.opacity = parseInt(target) / 100;
 			element.style.filter = 'alpha(opacity=' + parseInt(target) + ')';
-			clearInterval(element.timer);
-			if(obj.fn != undefined){
-				obj.fn();
-			}
 		}
 	}
 	return this;

@@ -160,6 +160,14 @@ function getStyle(element,attr){
 	return value;
 }
 
+//获取滚动条距离顶部距离
+function getScroll(){
+	return {
+		top:document.documentElement.scrollTop || document.body.scrollTop,
+		left:document.documentElement.scrollLeft || document.body.scrollLeft
+	};
+}
+
 //判断是否有相同类名
 function hasClass(element,className){
 	return element.className.match(new RegExp('(\\s|^)'+className+'(\\s|$)'))
@@ -186,3 +194,4 @@ function preDef(event){
 function trim(str){
 	return str.replace(/(^\s*)|(\s*$)/g,'');
 }
+

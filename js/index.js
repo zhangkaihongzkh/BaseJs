@@ -67,6 +67,36 @@ $(function(){
 	//拖拽
 	$login.drag($('#login h2').first(),$('#login .other').first());
 
+	//滑动导航栏
+	$('#nav .about li').hover(function () {
+		var target = $(this).first().offsetLeft;
+		$('#nav .nav_bg').animate({
+			attr : 'x',
+			target : target + 20,
+			t : 30,
+			step : 10,
+			fn : function () {
+				$('#nav .white').animate({
+					attr : 'x',
+					target : -target
+				});
+			}
+		});
+	}, function () {
+		$('#nav .nav_bg').animate({
+			attr : 'x',
+			target : 20,
+			t : 30,
+			step : 10,
+			fn : function () {
+				$('#nav .white').animate({
+					attr : 'x',
+					target : 0
+				});
+			}
+		});
+	});
+
 	//百度分享初始位置
 	$('#share').css('top', (getInner().height - parseInt(getStyle($('#share').first(), 'height'))) / 2 + 'px');
 	//随滚轮改变保持中央
@@ -90,4 +120,5 @@ $(function(){
 			'target':-210
 		});
 	});
+
 });
