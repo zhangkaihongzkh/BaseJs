@@ -154,6 +154,34 @@ Base.prototype.eq = function(num){
 	return this;
 };
 
+//获得同级元素下一个节点
+Base.prototype.next = function(){
+	for(var i = 0; i < this.elements.length; i ++){
+		this.elements[i] = this.elements[i].nextSibling;
+		if(this.elements[i] == null){
+			throw new Error("找不到下一个相邻节点");
+		}
+		if(this.elements[i].nodeType == 3){//下一节点为文本 则继续查找
+			this.next();
+		}
+	}
+	return this;
+};
+
+//获得同级元素上一个节点
+Base.prototype.prev = function(){
+	for (var i = 0; i < this.elements.length; i ++){
+		this.elements[i] = this.elements[i].previousSibling;
+		if(this.elements[i] == null){
+			throw new Error("找不到上一个相邻节点");
+		}
+		if(this.elements[i].nodeType == 3){
+			this.prev();
+		}
+	}
+	return this;
+};
+
 //设置css方法
 Base.prototype.css = function(attr,value){
 	for(var i = 0; i < this.elements.length;i ++){
