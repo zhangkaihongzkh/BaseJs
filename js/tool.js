@@ -191,65 +191,7 @@ function preDef(event){
 */
 
 
-//表单密码校验
-function check_pass(_this) {
-	var flag = false;
-	var value = trim($(_this).value());
-	var value_length = value.length;
-	var code_length = 0;
-	if (value_length > 0 && !/\s/.test(value)) {
-		$('#reg .info_pass .q2').html('●').css('color', 'green');
-	} else {
-		$('#reg .info_pass .q2').html('○').css('color', '#666');
-	}
-	if (value_length >= 6 && value_length <= 20) {
-		$('#reg .info_pass .q1').html('●').css('color', 'green');
-	} else {
-		$('#reg .info_pass .q1').html('○').css('color', '#666');
-	}
-	if (/[0-9]/.test(value)) {
-		code_length++;
-	}
-	if (/[a-z]/.test(value)) {
-		code_length++;
-	}
-	if (/[A-Z]/.test(value)) {
-		code_length++;
-	}
-	if (/[^a-zA-Z0-9]/.test(value)) {
-		code_length++;
-	}
-	if (code_length >= 2) {
-		$('#reg .info_pass .q3').html('●').css('color', 'green');
-	} else {
-		$('#reg .info_pass .q3').html('○').css('color', '#666');
-	}
-	if (code_length >= 3 && value_length >= 10) {
-		$('#reg .info_pass .s1').css('color', 'green');
-		$('#reg .info_pass .s2').css('color', 'green');
-		$('#reg .info_pass .s3').css('color', 'green');
-		$('#reg .info_pass .s4').html('高').css('color', 'green');
-	} else if (code_length >= 2 && value_length >= 8) {
-		$('#reg .info_pass .s1').css('color', '#f60');
-		$('#reg .info_pass .s2').css('color', '#f60');
-		$('#reg .info_pass .s3').css('color', '#ccc');
-		$('#reg .info_pass .s4').html('中').css('color', '#f60');
-	} else if (code_length >= 1) {
-		$('#reg .info_pass .s1').css('color', 'maroon');
-		$('#reg .info_pass .s2').css('color', '#ccc');
-		$('#reg .info_pass .s3').css('color', '#ccc');
-		$('#reg .info_pass .s4').html('低').css('color', 'maroon');
-	} else {
-		$('#reg .info_pass .s1').css('color', '#ccc');
-		$('#reg .info_pass .s2').css('color', '#ccc');
-		$('#reg .info_pass .s3').css('color', '#ccc');
-		$('#reg .info_pass .s4').html(' ').css('color', '#ccc');
-	}
-	if (value_length >= 6 && value_length <= 20 && code_length >= 2) {
-		flag = true;
-	}
-	return flag;
-}
+
 
 //跨浏览器获取 text
 function getText(element, text) {
@@ -263,6 +205,20 @@ function setText(element, text) {
 	} else {
 		element.innerText = text;
 	}
+}
+
+//某一个值是否存在某一个数组中
+function inArray(array, value) {
+	for (var i in array) {
+		if (array[i] === value) return true;
+	}
+	return false;
+}
+
+//滚动条清零
+function scrollTop() {
+	document.documentElement.scrollTop = 0;
+	document.body.scrollTop = 0;
 }
 
 //删除前后空格
