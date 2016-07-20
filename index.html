@@ -58,7 +58,11 @@
 					<span class="error error_pass">输入不合法，请重新输入！</span>
 					<span class="succ succ_pass">可用</span>
 				</dd>
-				<dd>确认密码: <input type="password" name="notpass" class="text"></dd>
+				<dd>确认密码: <input type="password" name="notpass" class="text">
+					<span class="info info_notpass">请再一次输入密码！</span>
+					<span class="error error_notpass">密码不一致，请重新输入！</span>
+					<span class="succ succ_notpass">可用</span>
+				</dd>
 				<dd>
 					<span style="vertical-align:-2px;">提&nbsp;&nbsp;问:</span>
 					<select name="ques">
@@ -69,8 +73,16 @@
 						<option value="4">----问题4----</option>
 					</select>
 				</dd>
-				<dd>回&nbsp;&nbsp;答: <input type="text" name="ans" class="text"></dd>
-				<dd>电子邮件: <input type="text" name="email" class="text"></dd>
+				<dd>回&nbsp;&nbsp;答: <input type="text" name="ans" class="text">
+					<span class="info info_ans">请输入回答，2~32 位！</span>
+					<span class="error error_ans">回答不合法，请重新输入！</span>
+					<span class="succ succ_ans">可用</span>
+				</dd>
+				<dd>电子邮件: <input type="text" name="email" class="text">
+					<span class="info info_email">请输入电子邮件！</span>
+					<span class="error error_email">邮件不合法，请重新输入！</span>
+					<span class="succ succ_email">可用</span>
+				</dd>
 				<dd class="birthday">
 					<span style="vertical-align:-2px;">生&nbsp;&nbsp;日:</span>
 					<select name="year">

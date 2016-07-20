@@ -138,7 +138,60 @@ $(function(){
 	$('form').form('pass').bind('keyup',function(){
 		check_pass(this);
 	});
-	
+	//密码回答
+	$('form').form('notpass').bind('focus', function () {
+		$('#reg .info_notpass').css('display', 'block');
+		$('#reg .error_notpass').css('display', 'none');
+		$('#reg .succ_notpass').css('display', 'none');
+	}).bind('blur', function () {
+		if (trim($(this).value()) == '') {
+			$('#reg .info_notpass').css('display', 'none');
+		} else if (trim($('form').form('pass').value()) == trim($(this).value())) {
+			$('#reg .info_notpass').css('display', 'none');
+			$('#reg .error_notpass').css('display', 'none');
+			$('#reg .succ_notpass').css('display', 'block');
+		} else {
+			$('#reg .info_notpass').css('display', 'none');
+			$('#reg .error_notpass').css('display', 'block');
+			$('#reg .succ_notpass').css('display', 'none');
+		}
+	});	
+	//回答
+	$('form').form('ans').bind('focus', function () {
+		$('#reg .info_ans').css('display', 'block');
+		$('#reg .error_ans').css('display', 'none');
+		$('#reg .succ_ans').css('display', 'none');
+	}).bind('blur', function () {
+	if (trim($(this).value()) == '') {
+		$('#reg .info_ans').css('display', 'none');
+	} else if (trim($(this).value()).length >= 2 && trim($(this).value()).length <= 32) {
+		$('#reg .info_ans').css('display', 'none');
+		$('#reg .error_ans').css('display', 'none');
+		$('#reg .succ_ans').css('display', 'block');
+	} else {
+		$('#reg .info_ans').css('display', 'none');
+		$('#reg .error_ans').css('display', 'block');
+		$('#reg .succ_ans').css('display', 'none');
+	}
+	});
+	//电子邮件
+	$('form').form('email').bind('focus', function () {
+		$('#reg .info_email').css('display', 'block');
+		$('#reg .error_email').css('display', 'none');
+		$('#reg .succ_email').css('display', 'none');
+	}).bind('blur', function () {
+	if (trim($(this).value()) == '') {
+		$('#reg .info_email').css('display', 'none');
+	} else if (/^[\w-\.]+@[\w-]+(\.[a-zA-Z]{2,4}){1,2}$/.test(trim($(this).value()))) {
+		$('#reg .info_email').css('display', 'none');
+		$('#reg .error_email').css('display', 'none');
+		$('#reg .succ_email').css('display', 'block');
+	} else {
+		$('#reg .info_email').css('display', 'none');
+		$('#reg .error_email').css('display', 'block');
+		$('#reg .succ_email').css('display', 'none');
+	}
+	});
 	//拖拽
 	$login.drag($('#login h2').first());
 	$reg.drag($('#reg h2').last());

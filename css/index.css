@@ -208,7 +208,7 @@ ul li{
 	background:url(../images/reg_info3.png) no-repeat;
 	top:-34px;
 	left:295px;
-	display:block;
+	display:none;
 	letter-spacing:0;
 }
 #reg dl dd span.info_pass p {
@@ -220,11 +220,47 @@ ul li{
 	color:#ccc;
 }
 #reg dl dd span.error_pass {
-	top:43px;
+	top:3px;
 	left:295px;
 }
 #reg dl dd span.succ_pass {
 	top:52px;
+	left:295px;
+}
+#reg dl dd span.info_notpass {
+	top:3px;
+	left:295px;
+}
+#reg dl dd span.error_notpass {
+	top:3px;
+	left:295px;
+}
+#reg dl dd span.succ_notpass {
+	top:12px;
+	left:295px;
+}
+#reg dl dd span.info_ans {
+	top:3px;
+	left:295px;
+}
+#reg dl dd span.error_ans {
+	top:3px;
+	left:295px;
+}
+#reg dl dd span.succ_ans {
+	top:172px;
+	left:295px;
+}
+#reg dl dd span.info_email {
+	top:3px;
+	left:295px;
+}
+#reg dl dd span.error_email {
+	top:3px;
+	left:295px;
+}
+#reg dl dd span.succ_email {
+	top:12px;
 	left:295px;
 }
 
