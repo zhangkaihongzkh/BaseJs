@@ -94,6 +94,7 @@ $(function(){
 	});
 
 	//注册框校验
+	//用户名校验
 	$('form').form('user').bind('focus', function () {
 		$('#reg .info_user').css('display', 'block');
 		$('#reg .error_user').css('display', 'none');
@@ -113,7 +114,30 @@ $(function(){
 			$('#reg .info_user').css('display', 'none');
 		}
 	});
-
+	//密码校验
+	$('form').form('pass').bind('focus', function () {
+		$('#reg .info_pass').css('display', 'block');
+		$('#reg .error_pass').css('display', 'none');
+		$('#reg .succ_pass').css('display', 'none');
+	}).bind('blur', function () {
+		if (trim($(this).value()) == '') {
+			$('#reg .info_pass').css('display', 'none');
+			$('#reg .error_pass').css('display', 'none');
+			$('#reg .succ_pass').css('display', 'none');
+		} else if (!/[a-zA-Z0-9_]{2,20}/.test(trim($(this).value()))) {
+			$('#reg .error_pass').css('display', 'block');
+			$('#reg .info_pass').css('display', 'none');
+			$('#reg .succ_pass').css('display', 'none');
+		} else {
+			$('#reg .succ_pass').css('display', 'block');
+			$('#reg .error_pass').css('display', 'none');
+			$('#reg .info_pass').css('display', 'none');
+		}
+	});
+	//密码强度校验
+	$('form').form('pass').bind('keyup',function(){
+		check_pass(this);
+	});
 	
 	//拖拽
 	$login.drag($('#login h2').first());
