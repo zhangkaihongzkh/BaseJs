@@ -263,6 +263,24 @@ ul li{
 	top:12px;
 	left:295px;
 }
+#reg dl dd ul.all_email {
+	width:180px;
+	height:130px;
+	background:#fff;
+	padding:5px 10px;
+	position:absolute;
+	top:233px;
+	left:87px;
+	border:1px solid #ccc;
+	display:none;
+}
+#reg dl dd ul.all_email li {
+	height:25px;
+	line-height:25px;
+	border-bottom:1px solid #e5edf2;
+	padding:0 5px;
+	cursor:pointer;
+}
 
 /* 登陆框 */
 #login{

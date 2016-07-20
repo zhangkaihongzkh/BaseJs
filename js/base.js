@@ -473,6 +473,22 @@ Base.prototype.value = function(str){
 	return this;
 };
 
+//获取一个节点数组的长度
+Base.prototype.length = function () {
+	return this.elements.length;
+};
+
+//设置 innerText
+Base.prototype.text = function (str) {
+	for (var i = 0; i < this.elements.length; i ++) {
+	if (arguments.length == 0) {
+		return getText(this.elements[i], str);
+	}
+		setText(this.elements[i], str);
+	}
+	return this;
+};
+
 //插件引入入口
 Base.prototype.extend = function(name,fn){
 	Base.prototype[name] = fn;

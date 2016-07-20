@@ -251,6 +251,20 @@ function check_pass(_this) {
 	return flag;
 }
 
+//跨浏览器获取 text
+function getText(element, text) {
+	return (typeof element.textContent == 'string') ? element.textContent : element.innerText;
+}
+
+//跨浏览器设置 text
+function setText(element, text) {
+	if (typeof element.textContent == 'string') {
+		element.textContent = text;
+	} else {
+		element.innerText = text;
+	}
+}
+
 //删除前后空格
 function trim(str){
 	return str.replace(/(^\s*)|(\s*$)/g,'');

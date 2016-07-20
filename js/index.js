@@ -138,6 +138,65 @@ $(function(){
 	$('form').form('pass').bind('keyup',function(){
 		check_pass(this);
 	});
+	//表单密码校验
+	function check_pass(_this) {
+		var flag = false;
+		var value = trim($(_this).value());
+		var value_length = value.length;
+		var code_length = 0;
+		if (value_length > 0 && !/\s/.test(value)) {
+			$('#reg .info_pass .q2').html('●').css('color', 'green');
+		} else {
+			$('#reg .info_pass .q2').html('○').css('color', '#666');
+		}
+		if (value_length >= 6 && value_length <= 20) {
+			$('#reg .info_pass .q1').html('●').css('color', 'green');
+		} else {
+			$('#reg .info_pass .q1').html('○').css('color', '#666');
+		}
+		if (/[0-9]/.test(value)) {
+			code_length++;
+		}
+		if (/[a-z]/.test(value)) {
+			code_length++;
+		}
+		if (/[A-Z]/.test(value)) {
+			code_length++;
+		}
+		if (/[^a-zA-Z0-9]/.test(value)) {
+			code_length++;
+		}
+		if (code_length >= 2) {
+			$('#reg .info_pass .q3').html('●').css('color', 'green');
+		} else {
+			$('#reg .info_pass .q3').html('○').css('color', '#666');
+		}
+		if (code_length >= 3 && value_length >= 10) {
+			$('#reg .info_pass .s1').css('color', 'green');
+			$('#reg .info_pass .s2').css('color', 'green');
+			$('#reg .info_pass .s3').css('color', 'green');
+			$('#reg .info_pass .s4').html('高').css('color', 'green');
+		} else if (code_length >= 2 && value_length >= 8) {
+			$('#reg .info_pass .s1').css('color', '#f60');
+			$('#reg .info_pass .s2').css('color', '#f60');
+			$('#reg .info_pass .s3').css('color', '#ccc');
+			$('#reg .info_pass .s4').html('中').css('color', '#f60');
+		} else if (code_length >= 1) {
+			$('#reg .info_pass .s1').css('color', 'maroon');
+			$('#reg .info_pass .s2').css('color', '#ccc');
+			$('#reg .info_pass .s3').css('color', '#ccc');
+			$('#reg .info_pass .s4').html('低').css('color', 'maroon');
+		} else {
+			$('#reg .info_pass .s1').css('color', '#ccc');
+			$('#reg .info_pass .s2').css('color', '#ccc');
+			$('#reg .info_pass .s3').css('color', '#ccc');
+			$('#reg .info_pass .s4').html(' ').css('color', '#ccc');
+		}
+		if (value_length >= 6 && value_length <= 20 && code_length >= 2) {
+			flag = true;
+		}
+		return flag;
+	}
 	//密码回答
 	$('form').form('notpass').bind('focus', function () {
 		$('#reg .info_notpass').css('display', 'block');
@@ -174,24 +233,80 @@ $(function(){
 		$('#reg .succ_ans').css('display', 'none');
 	}
 	});
+
+
 	//电子邮件
 	$('form').form('email').bind('focus', function () {
-		$('#reg .info_email').css('display', 'block');
-		$('#reg .error_email').css('display', 'none');
-		$('#reg .succ_email').css('display', 'none');
-	}).bind('blur', function () {
-	if (trim($(this).value()) == '') {
-		$('#reg .info_email').css('display', 'none');
-	} else if (/^[\w-\.]+@[\w-]+(\.[a-zA-Z]{2,4}){1,2}$/.test(trim($(this).value()))) {
-		$('#reg .info_email').css('display', 'none');
-		$('#reg .error_email').css('display', 'none');
-		$('#reg .succ_email').css('display', 'block');
-	} else {
-		$('#reg .info_email').css('display', 'none');
-		$('#reg .error_email').css('display', 'block');
-		$('#reg .succ_email').css('display', 'none');
-	}
+		if ($(this).value().indexOf('@') == -1) $('#reg .all_email').css('display', 'block');
+			$('#reg .info_email').css('display', 'block');
+			$('#reg .error_email').css('display', 'none');
+			$('#reg .succ_email').css('display', 'none');
+		}).bind('blur', function () {
+			$('#reg .all_email').css('display', 'none');
+			check_email();
 	});
+	//电子邮件选定补全
+	$('#reg .all_email li').bind('mousedown', function () {
+		$('form').form('email').value($(this).text());
+		check_email();
+	});
+	//电子邮件键入补全
+	$('form').form('email').bind('keyup', function (event) {
+		if ($(this).value().indexOf('@') == -1) {
+			$('#reg .all_email').css('display', 'block');
+			$('#reg .all_email li span').html($(this).value());
+		} else {
+			$('#reg .all_email').css('display', 'none');
+		}
+		$('#reg .all_email li').css('background', 'none');
+		$('#reg .all_email li').css('color', '#666');
+		if (event.keyCode == 40) {
+			if (this.index == undefined || this.index >= $('#reg .all_email li').length() - 1) {
+				this.index = 0;
+			} else {
+				this.index ++;
+			}
+			$('#reg .all_email li').eq(this.index).css('background', '#E5EDF2');
+			$('#reg .all_email li').eq(this.index).css('color', '#369');
+		}
+		if (event.keyCode == 38) {
+			if (this.index == undefined || this.index <= 0) {
+				this.index = $('#reg .all_email li').length() -1;
+			} else {
+				this.index --;
+			}
+			$('#reg .all_email li').eq(this.index).css('background', '#E5EDF2');
+			$('#reg .all_email li').eq(this.index).css('color', '#369');
+		}
+		if (event.keyCode == 13) {
+			$(this).value($('#reg .all_email li').eq(this.index).text());
+			$('#reg .all_email').css('display', 'none');
+			this.index = undefined;
+		}
+	});
+	function check_email() {
+		if (trim($('form').form('email').value()) == '') {
+			$('#reg .info_email').css('display', 'none');
+		} else if (/^[\w-\.]+@[\w-]+(\.[a-zA-Z]{2,4}){1,2}$/.test(trim($('form').form('email').value()))) {
+			$('#reg .info_email').css('display', 'none');
+			$('#reg .error_email').css('display', 'none');
+			$('#reg .succ_email').css('display', 'block');
+		} else {
+			$('#reg .info_email').css('display', 'none');
+			$('#reg .error_email').css('display', 'block');
+			$('#reg .succ_email').css('display', 'none');
+		}
+	}
+	//电子邮件补全移入效果
+	$('#reg .all_email li').hover(function () {
+		$(this).css('background', '#E5EDF2');
+		$(this).css('color', '#369');
+	}, function () {
+		$(this).css('background', 'none');
+		$(this).css('color', '#666');
+	});
+
+	
 	//拖拽
 	$login.drag($('#login h2').first());
 	$reg.drag($('#reg h2').last());
