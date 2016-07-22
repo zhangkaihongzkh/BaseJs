@@ -489,6 +489,30 @@ Base.prototype.text = function (str) {
 	return this;
 };
 
+//获取某个节点在某组的位置
+Base.prototype.index = function(){
+	var children = this.elements[0].parentNode.children;
+	for(var i = 0; i < children.length; i ++){
+		if(this.elements[0] == children[i]){
+			return i;
+		}
+	}
+};
+
+//获取某个节点的属性
+Base.prototype.attr = function(attr){
+	return this.elements[0][attr];
+};
+
+//设置元素节点透明度函数
+Base.prototype.opacity = function(num){
+	for(var i = 0; i < this.elements.length; i ++){
+		this.elements[i].style.opacity = num/100;
+		this.elements[i].filter = 'alpha(opacity=' + num + ')';
+	}
+	return this;
+};
+
 //插件引入入口
 Base.prototype.extend = function(name,fn){
 	Base.prototype[name] = fn;
