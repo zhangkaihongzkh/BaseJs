@@ -266,23 +266,29 @@ Base.prototype.center = function(width,height){
 	return this;
 };
 
-//锁屏操作
-Base.prototype.lock = function(){
-	for(var i = 0;i < this.elements.length;i ++){
-		this.elements[i].style.width = getInner().width + 'px';
-		this.elements[i].style.height = getInner().height + 'px';
+//锁屏功能
+Base.prototype.lock = function () {
+	for (var i = 0; i < this.elements.length; i ++) {
+		this.elements[i].style.width = getInner().width + getScroll().left + 'px';
+		this.elements[i].style.height = getInner().height + getScroll().top + 'px';
 		this.elements[i].style.display = 'block';
-		document.documentElement.style.overflow = 'hidden';//出现遮照时将滚动条去除
+		parseFloat(sys.firefox) < 4 ? document.body.style.overflow = 'hidden' : document.documentElement.style.overflow = 'hidden';
+		addEvent(document, 'mousedown', predef);
+		addEvent(document, 'mouseup', predef);
+		addEvent(document, 'selectstart', predef);
 	}
+	return this;
 };
 
-//解锁操作
-Base.prototype.unlock = function(){
-	for(var i = 0;i < this.elements.length;i ++){
+Base.prototype.unlock = function () {
+	for (var i = 0; i < this.elements.length; i ++) {
 		this.elements[i].style.display = 'none';
-		document.documentElement.style.overflow = 'auto';//还原滚动条
-
+		parseFloat(sys.firefox) < 4 ? document.body.style.overflow = 'auto' : document.documentElement.style.overflow = 'auto';
+		removeEvent(document, 'mousedown', predef);
+		removeEvent(document, 'mouseup', predef);
+		removeEvent(document, 'selectstart', predef);
 	}
+	return this;
 };
 
 //点击事件
@@ -408,22 +414,26 @@ Base.prototype.animate = function (obj) {
 	return this;
 };
 
-//窗口改变触发事件
-Base.prototype.resize = function(fn){
-	for(var i = 0;i < this.elements.length;i ++){
+//触发浏览器窗口事件
+Base.prototype.resize = function (fn) {
+	for (var i = 0; i < this.elements.length; i ++) {
 		var element = this.elements[i];
-		addEvent(window,'resize',function(){
+		addEvent(window, 'resize', function () {
 			fn();
-			//针对缩小窗口后登陆窗口仍然可以在右下角显示
-			if(element.offsetLeft > getInner().width - element.offsetWidth){
-				element.style.left = getInner().width - element.offsetWidth + 'px';
+			if (element.offsetLeft > getInner().width + getScroll().left - element.offsetWidth) {
+				element.style.left = getInner().width + getScroll().left - element.offsetWidth + 'px';
+				if (element.offsetLeft <= 0 + getScroll().left) {
+					element.style.left = 0 + getScroll().left + 'px';
+				}
 			}
-			if(element.offsetTop > getInner().height - element.offsetHeight){
-				element.style.top = getInner().height - element.offsetHeight + 'px';
+			if(element.offsetTop > getInner().height + getScroll().top - element.offsetHeight) {
+				element.style.top = getInner().height + getScroll().top - element.offsetHeight + 'px';
+				if (element.offsetTop <= 0 + getScroll().top) {
+					element.style.top = 0 + getScroll().top + 'px';
+				}
 			}
 		});
 	}
-	
 	return this;
 };
 

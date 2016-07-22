@@ -24,74 +24,72 @@ $(function(){
 		});
 	});
 
-	//登陆框
-	var $login = $('#login');
-	var $screen = $('#screen');
-	$login.center(350,250).resize(function(){
-		if($login.css('display') == 'block'){
-			$('#screen').animate({
-				attr:'o',
-				target:'0',
-				step:10,
-				t:30,
-				fn:function(){
-					$('#screen').lock();
-				}
-			});
+	//遮罩画布
+	var screen = $('#screen');
+	
+	//登录框
+	var login = $('#login');
+	login.center(350, 250).resize(function () {
+		if (login.css('display') == 'block') {
+			screen.lock();
 		}
 	});
-	$('#header .login').click(function(){
-		$login.center(350,250).css('display','block');
-		$('#screen').lock();
-		$('#screen').animate({
-			attr:'o',
-			target:30,
-			step:10,
-			t:30
+	$('#header .login').click(function () {
+		login.center(350, 250).css('display', 'block');
+		screen.lock().animate({
+			attr : 'o',
+			target : 30,
+			t : 30,
+			step : 10
 		});
 	});
-	$('#login .close').click(function(){
-		$login.css('display','none');
-		$('#screen').animate({
-			attr:'o',
-			target:0,
-			step:10,
-			t:30,
-			fn:function(){
-				$screen.unlock();
-			}		
+	$('#login .close').click(function () {
+		login.css('display', 'none');
+		//先执行渐变动画，动画完毕后再执行关闭unlock
+		screen.animate({
+			attr : 'o',
+			target : 0,
+			t : 30,
+			step : 10,
+			fn : function () {
+				screen.unlock();
+			}
 		});
 	});
-
+	
 	//注册框
-	var $reg = $('#reg');
-	$reg.center(600,550).resize(function(){
-		if($reg.css('display') == 'block'){
-			$screen.lock();
+	var reg = $('#reg');
+	reg.center(600, 550).resize(function () {
+		if (reg.css('display') == 'block') {
+			screen.lock();
 		}
 	});
-	$('#header .reg').click(function(){
-		$reg.center(600,550).css('display','block');
-		$('#screen').lock();
-		$('#screen').animate({
-			attr:'o',
-			target:30,
-			step:10,
-			t:30
+	$('#header .reg').click(function () {
+		reg.center(600, 550).css('display', 'block');
+		screen.lock().animate({
+			attr : 'o',
+			target : 30,
+			t : 30,
+			step : 10
 		});
 	});
-	$('#reg .close').click(function(){
-		$reg.css('display','none');
-		$screen.animate({
-			attr:'o',
-			target:0,
-			step:10,
-			t:30,
-			fn:function(){
-				$screen.unlock();
-			}		
+	$('#reg .close').click(function () {
+		reg.css('display', 'none');
+		screen.animate({
+			attr : 'o',
+			target : 0,
+			t : 30,
+			step : 10,
+			fn : function () {
+				screen.unlock();
+			}
 		});
 	});
+	
+	//拖拽
+	login.drag($('#login h2').last());
+	reg.drag($('#reg h2').last());
+	
 
 	//注册框校验
 	//表单验证
@@ -508,9 +506,7 @@ $(function(){
 		}
 	});
 	
-	//拖拽
-	$login.drag($('#login h2').first());
-	$reg.drag($('#reg h2').last());
+
 
 	//滑动导航栏
 	$('#nav .about li').hover(function () {
@@ -656,24 +652,226 @@ $(function(){
 		banner_index++;
 	}
 
-	//图片延迟加载
+//问题1：将xsrc地址替换到src中去
+	//当图片进入到可见区域的时候，将图片的xsrc的地址替换到src即可
+	//alert($('.wait_load').eq(0).attr('xsrc'));
+	//$('.wait_load').eq(0).attr('src', $('.wait_load').eq(0).attr('xsrc'));
+	
+	
+	//问题2：获取图片元素到最外层顶点元素的距离
+	//alert(offsetTop($('.wait_load').first()));
+	
+	//问题3：获取页面可视区域的最低点的位置
+	//alert(getInner().height + getScroll().top);
+	
 	var wait_load = $('.wait_load');
 	wait_load.opacity(0);
-	$(window).bind('scroll',function(){
-		setTimeout(function(){
-			for(var i = 0; i < wait_load.length(); i ++){
+	$(window).bind('scroll', _wait_load);
+	$(window).bind('resize', _wait_load);
+	
+	function _wait_load() {
+		setTimeout(function () {
+			for (var i = 0; i < wait_load.length(); i ++) {
 				var _this = wait_load.ge(i);
-				if((getInner().height + getScroll().top) >= offsetTop(_this)){
-					$(_this).attr('src',$(_this).attr('xsrc')).animate({
-						attr:'o',
-						target:100,
-						t:30,
-						step:10
-					})
+				if (getInner().height + getScroll().top >= offsetTop(_this)) {
+					$(_this).attr('src', $(_this).attr('xsrc')).animate({
+						attr : 'o',
+						target : 100,
+						t : 30,
+						step : 10
+					});
 				}
 			}
 		}, 100);
+	}
+	
+	
+	//图片弹窗
+	var photo_big = $('#photo_big');
+	photo_big.center(620, 511).resize(function () {
+		if (reg.css('display') == 'block') {
+			screen.lock();
+		}
 	});
+	$('#photo dl dt img').click(function () {
+		photo_big.center(620, 511).css('display', 'block');
+		screen.lock().animate({
+			attr : 'o',
+			target : 30,
+			t : 30,
+			step : 10
+		});
+		
+		var temp_img = new Image();
+
+		$(temp_img).bind('load', function () {
+			$('#photo_big .big img').attr('src', temp_img.src).animate({
+				attr : 'o',
+				target : 100,
+				t : 30,
+				step : 10
+			}).css('width', '600px').css('height', '450px').css('top', 0).opacity(0);
+		});
+		
+		temp_img.src = $(this).attr('bigsrc');
+		
+		var children = this.parentNode.parentNode;
+		
+		prev_next_img(children);
+
+	});
+	$('#photo_big .close').click(function () {
+		photo_big.css('display', 'none');
+		screen.animate({
+			attr : 'o',
+			target : 0,
+			t : 30,
+			step : 10,
+			fn : function () {
+				screen.unlock();
+			}
+		});
+		
+		$('#photo_big .big img').attr('src', 'images/loading.gif').css('width', '32px').css('height', '32px').css('top', '190px');
+	});
+	
+	//拖拽
+	photo_big.drag($('#photo_big h2').last());
+	
+	/*
+	//图片加载
+	$('#photo_big .big img').attr('src', 'http://pic2.desk.chinaz.com/file/201212/6/yidaizongshi6.jpg').animate({
+		attr : 'o',
+		target : 100,
+		t : 30,
+		step : 10
+	}).css('width', '600px').css('height', '450px').css('top', 0).opacity(0);
+	
+	//问题1，loading的样式被大图的高和宽改变了
+	//问题2，动画的渐变效果没有出现
+
+	
+	//创建一个临时的图片对象，用以保存图片
+	//alert($('#photo_big .big img').first());
+	//alert(new Image());
+	
+	var temp_img = new Image();			//创建一个临时区域的图片对象
+
+	$(temp_img).bind('load', function () {
+		$('#photo_big .big img').attr('src', temp_img.src).animate({
+			attr : 'o',
+			target : 100,
+			t : 30,
+			step : 10
+		}).css('width', '600px').css('height', '450px').css('top', 0).opacity(0);
+	});
+	
+	//IE必须把src这个属性放在load事件的下面才有效
+	temp_img.src = 'http://pic2.desk.chinaz.com/file/201212/6/yidaizongshi6.jpg';  //src属性可以在后台加载这张图片到本地缓存
+	*/
+	
+	
+	//图片鼠标划过
+	$('#photo_big .big .left').hover(function () {
+		$('#photo_big .big .sl').animate({
+			attr : 'o',
+			target : 50,
+			t : 30,
+			step : 10
+		});		
+	}, function () {
+		$('#photo_big .big .sl').animate({
+			attr : 'o',
+			target : 0,
+			t : 30,
+			step : 10
+		});
+	});
+	
+	//图片鼠标划过
+	$('#photo_big .big .right').hover(function () {
+		$('#photo_big .big .sr').animate({
+			attr : 'o',
+			target : 50,
+			t : 30,
+			step : 10
+		});		
+	}, function () {
+		$('#photo_big .big .sr').animate({
+			attr : 'o',
+			target : 0,
+			t : 30,
+			step : 10
+		});
+	});
+	
+	
+	//图片上一张 
+	$('#photo_big .big .left').click(function () {
+	
+		$('#photo_big .big img').attr('src', 'images/loading.gif').css('width', '32px').css('height', '32px').css('top', '190px');
+	
+		var current_img = new Image();
+	
+		$(current_img).bind('load', function () {
+			$('#photo_big .big img').attr('src', current_img.src).animate({
+				attr : 'o',
+				target : 100,
+				t : 30,
+				step : 10
+			}).opacity(0).css('width', '600px').css('height', '450px').css('top', 0);
+		});
+
+		current_img.src = $(this).attr('src');
+		
+		var children = $('#photo dl dt img').ge(prevIndex($('#photo_big .big img').attr('index'), $('#photo').first())).parentNode.parentNode;
+		
+		prev_next_img(children);
+
+		
+	});
+	
+	
+	//图片下一张
+	$('#photo_big .big .right').click(function () {
+	
+		$('#photo_big .big img').attr('src', 'images/loading.gif').css('width', '32px').css('height', '32px').css('top', '190px');
+	
+		var current_img = new Image();
+	
+		$(current_img).bind('load', function () {
+			$('#photo_big .big img').attr('src', current_img.src).animate({
+				attr : 'o',
+				target : 100,
+				t : 30,
+				step : 10
+			}).opacity(0).css('width', '600px').css('height', '450px').css('top', 0);
+		});
+
+		current_img.src = $(this).attr('src');
+		
+		var children = $('#photo dl dt img').ge(nextIndex($('#photo_big .big img').attr('index'), $('#photo').first())).parentNode.parentNode;
+		
+		prev_next_img(children);
+
+		
+	});
+	
+	function prev_next_img(children) {
+		var prev = prevIndex($(children).index(), children.parentNode);
+		var next = nextIndex($(children).index(), children.parentNode);
+		
+		var prev_img = new Image();
+		var next_img = new Image();
+		
+		prev_img.src = $('#photo dl dt img').eq(prev).attr('bigsrc');
+		next_img.src = $('#photo dl dt img').eq(next).attr('bigsrc');
+		$('#photo_big .big .left').attr('src', prev_img.src);
+		$('#photo_big .big .right').attr('src', next_img.src);
+		$('#photo_big .big img').attr('index', $(children).index());
+		$('#photo_big .big .index').html(parseInt($(children).index()) + 1 + '/' + $('#photo dl dt img').length());
+	}
+
 
 
 

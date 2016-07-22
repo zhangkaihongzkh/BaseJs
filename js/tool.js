@@ -237,3 +237,33 @@ function trim(str){
 	return str.replace(/(^\s*)|(\s*$)/g,'');
 }
 
+//禁止选择文本
+function predef(e) {
+	e.preventDefault();
+}
+
+//得到数组中当前索引值的上一个
+function prevIndex(current,parent){
+	var length = parent.children.length;
+	if(current == 0){
+		return length - 1;
+	}
+	return parseInt(current) - 1;
+}
+
+//得到数组中当前索引值的下一个
+function nextIndex(current,parent){
+	var length = parent.children.length;
+	if(current == length - 1){
+		return 0;
+	}
+	return parseInt(current) + 1;
+}
+
+//跨浏览器获取滚动条位置
+function getScroll() {
+	return {
+		top : document.documentElement.scrollTop || document.body.scrollTop,
+		left : document.documentElement.scrollLeft || document.body.scrollLeft
+	}
+}

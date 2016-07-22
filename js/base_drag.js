@@ -39,15 +39,19 @@ $().extend('drag',function(){
 				var top = event.clientY- diffY;
 
 				//判断是否到达浏览器窗口边界
-				if(left < 0){
+				if (left < 0) {
 					left = 0;
-				}else if(left > getInner().width - _this.offsetWidth){
-					left = getInner().width - _this.offsetWidth;
+				} else if (left <= getScroll().left) {
+					left = getScroll().left;
+				} else if (left > getInner().width + getScroll().left - _this.offsetWidth) {
+					left = getInner().width + getScroll().left - _this.offsetWidth;
 				}
-				if(top < 0){
+				if (top < 0) {
 					top = 0;
-				}else if(top > getInner().height - _this.offsetHeight){
-					top = getInner().height - _this.offsetHeight;
+				} else if (top <= getScroll().top) {
+					top = getScroll().top;
+				} else if (top > getInner().height + getScroll().top - _this.offsetHeight) {
+					top = getInner().height + getScroll().top - _this.offsetHeight;
 				}
 
 				_this.style.left = left + 'px';
