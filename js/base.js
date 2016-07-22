@@ -499,9 +499,16 @@ Base.prototype.index = function(){
 	}
 };
 
-//获取某个节点的属性
-Base.prototype.attr = function(attr){
-	return this.elements[0][attr];
+//获取或设置某个节点的属性
+Base.prototype.attr = function(attr,value){
+	for(var i = 0; i < this.elements.length; i ++){
+		if(arguments.length == 1){
+			return this.elements[i].getAttribute(attr);
+		}else if(arguments.length == 2){
+			this.elements[i].setAttribute(attr,value);
+		}
+	}
+	return this;
 };
 
 //设置元素节点透明度函数

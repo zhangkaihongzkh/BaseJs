@@ -221,6 +221,17 @@ function scrollTop() {
 	document.body.scrollTop = 0;
 }
 
+//获取元素到顶部的距离
+function offsetTop(element){
+	var top = element.offsetTop;
+	var parent = element.offsetParent;
+	if(parent != null){
+		top += parent.offsetTop;
+		parent = parent.offsetParent;
+	}
+	return top;
+}
+
 //删除前后空格
 function trim(str){
 	return str.replace(/(^\s*)|(\s*$)/g,'');
